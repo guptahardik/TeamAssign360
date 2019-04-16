@@ -9,16 +9,19 @@ public class ToDoList {
 
 	// Parameters for a list item
 	private int priority;
-	private String date;
+	private String date_start;
+	private String date_end;
 	private String description;
-	private String status;
+	private Status listStatus;
 	
 	// constructor for a new ToDoList object
-	public ToDoList(int prio, String Date, String Descrip, String Stat){
+	public ToDoList(int prio, String Date_start, String Date_end, 
+			String Descrip, int Stat){
 		priority = prio;
-		date = Date;
+		date_start = Date_start;
+		date_end = Date_end;
 		description = Descrip;
-		status = Stat;
+		listStatus = new Status(Stat, Date_start, Date_end);
 	}
 	
 	//DECLARING GETTER AND SETTER METHODS
@@ -30,12 +33,20 @@ public class ToDoList {
 		this.priority = prio;
 	}
 	
-	public String getDate() {
-		return date;
+	public String getStartDate() {
+		return date_start;
 	}
 	
-	public void setDate(String Date) {
-		this.date = Date;
+	public void setStartDate(String Date) {
+		this.date_start = Date;
+	}
+	
+	public String getEndDate() {
+		return date_end;
+	}
+	
+	public void setEndDate(String Date_end) {
+		this.date_end = Date_end;
 	}
 	
 	public String getDescription() {
@@ -46,12 +57,14 @@ public class ToDoList {
 		this.description = desc;
 	}
 	
-	public String getStatus() {
-		return status;
+	public Status getListStatus() {
+		return listStatus;
 	}
 	
-	public void setStatus(String stat) {
-		this.status = stat;
+	public void setListStatus(int stat, String Date_start, String Date_end) {
+		this.listStatus.setStatus(stat);
+		this.listStatus.setDateStarted(Date_start);
+		this.listStatus.setDateFinished(Date_end);
 	}
 	
 	

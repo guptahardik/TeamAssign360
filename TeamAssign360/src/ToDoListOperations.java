@@ -1,9 +1,11 @@
 
 public class ToDoListOperations {
 
-	public void addList(int prio, String Date, String Descrip, String Stat) {
+	public void addList(int prio, String Date_start, String Date_end,
+			String Descrip, int Stat) {
 		
-		ToDoList newListInstance = new ToDoList(prio, Date, Descrip, Stat);
+		ToDoList newListInstance = new ToDoList(prio, Date_start, Date_end,
+				Descrip, Stat);
 		
 		// Add the newListInstance to the linked list
 		// add the list object to the current and all file
@@ -17,13 +19,14 @@ public class ToDoListOperations {
 		
 	}
 	
-	public void updateList(ToDoList listObj, int prio, String Date,
-			String Descrip, String Stat) {
+	public void updateList(ToDoList listObj, int prio, String Date_start,
+			String Date_end, String Descrip, int Stat) {
 		
 		listObj.setPriority(prio);
-		listObj.setDate(Date);
+		listObj.setStartDate(Date_start);
+		listObj.setEndDate(Date_end);
 		listObj.setDescription(Descrip);
-		listObj.setStatus(Stat);
+		listObj.setListStatus(Stat, Date_start, Date_end);
 	}
 	
 	// IDK exactly to do here for now
