@@ -187,6 +187,7 @@ public class GUI
 		//New Priority ComboBox
 		JComboBox newPriorityComboBox = new JComboBox();
 		newPriorityComboBox.setBounds(562, 190, 102, 27);
+		newPriorityComboBox.setModel(new DefaultComboBoxModel(new String[] {"1"}));
 		frame.getContentPane().add(newPriorityComboBox);
 		
 		//Add Labels
