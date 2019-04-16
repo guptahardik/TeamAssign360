@@ -217,6 +217,14 @@ public class GUI
 		JButton btnPrintToFile = new JButton("Print To File");
 		btnPrintToFile.setBounds(754, 353, 123, 29);
 		frame.getContentPane().add(btnPrintToFile);
+		
+		JLabel lblViewAndUpdate = new JLabel("View and Update");
+		lblViewAndUpdate.setBounds(493, 14, 109, 16);
+		frame.getContentPane().add(lblViewAndUpdate);
+		
+		JLabel lblAddNewTask = new JLabel("Add New Task");
+		lblAddNewTask.setBounds(779, 14, 90, 16);
+		frame.getContentPane().add(lblAddNewTask);
 
 	}
 }
