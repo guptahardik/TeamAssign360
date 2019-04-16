@@ -25,24 +25,24 @@ public class GUI
 	{
 		//Create JFrame
 		frame = new JFrame();
-		frame.setBounds(200, 200, 750, 468);
+		frame.setBounds(200, 200, 950, 468);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		//First section of GUI Beginning
 		//Create Scrollable List
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(16, 42, 195, 252);
+		scrollPane.setBounds(16, 42, 331, 252);
 		frame.getContentPane().add(scrollPane);
 		
 		//List Label
 		JLabel lblTaskList = new JLabel("Task List");
-		lblTaskList.setBounds(79, 14, 61, 16);
+		lblTaskList.setBounds(144, 14, 61, 16);
 		frame.getContentPane().add(lblTaskList);
 		
 		//Create panel for sort radio buttons
 		JPanel sortByPanel = new JPanel(new GridLayout(2, 2));
-		sortByPanel.setBounds(16, 306, 195, 122);
+		sortByPanel.setBounds(16, 306, 331, 122);
 		frame.getContentPane().add(sortByPanel);
 		
 		//Add radio buttons
@@ -78,41 +78,41 @@ public class GUI
 		//Middle Section of the GUI Beginning
 		//Create text fields
 		descriptionUpdateTextField = new JTextField();
-		descriptionUpdateTextField.setBounds(317, 42, 155, 77);
+		descriptionUpdateTextField.setBounds(451, 42, 203, 77);
 		frame.getContentPane().add(descriptionUpdateTextField);
 		descriptionUpdateTextField.setColumns(10);
 		
 		//Create Labels
 		JLabel lblDescription = new JLabel("Description:");
-		lblDescription.setBounds(241, 72, 77, 16);
+		lblDescription.setBounds(375, 72, 77, 16);
 		frame.getContentPane().add(lblDescription);
 		
 		JLabel lblDueDate = new JLabel("Due Date:");
-		lblDueDate.setBounds(256, 148, 62, 16);
+		lblDueDate.setBounds(422, 148, 62, 16);
 		frame.getContentPane().add(lblDueDate);
 		
 		JLabel lblMonth = new JLabel("Month");
-		lblMonth.setBounds(327, 125, 40, 16);
+		lblMonth.setBounds(493, 125, 40, 16);
 		frame.getContentPane().add(lblMonth);
 		
 		JLabel lblDay = new JLabel("Day");
-		lblDay.setBounds(386, 125, 24, 16);
+		lblDay.setBounds(552, 125, 24, 16);
 		frame.getContentPane().add(lblDay);
 		
 		//Create Month and Day textfields
 		monthUpdateTextField = new JTextField();
-		monthUpdateTextField.setBounds(330, 143, 40, 26);
+		monthUpdateTextField.setBounds(496, 143, 40, 26);
 		frame.getContentPane().add(monthUpdateTextField);
 		monthUpdateTextField.setColumns(10);
 		
 		dayUpdateTextField = new JTextField();
 		dayUpdateTextField.setColumns(10);
-		dayUpdateTextField.setBounds(379, 143, 40, 26);
+		dayUpdateTextField.setBounds(545, 143, 40, 26);
 		frame.getContentPane().add(dayUpdateTextField);
 		
 		//Priority Label
 		JLabel lblNewLabel = new JLabel("Priority:");
-		lblNewLabel.setBounds(269, 190, 49, 16);
+		lblNewLabel.setBounds(435, 190, 49, 16);
 		frame.getContentPane().add(lblNewLabel);
 		
 		//Priority Combo Box
@@ -120,102 +120,102 @@ public class GUI
 		
 		//Input number of descriptions using for loop below for combo box options
 		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		priorityUpdateComboBox.setBounds(317, 186, 102, 27);
+		priorityUpdateComboBox.setBounds(483, 186, 102, 27);
 		frame.getContentPane().add(priorityUpdateComboBox);
 		
 		//Create Buttons
 		JButton btnUpdateTask = new JButton("Update Task");
-		btnUpdateTask.setBounds(317, 271, 123, 29);
+		btnUpdateTask.setBounds(483, 271, 123, 29);
 		frame.getContentPane().add(btnUpdateTask);
 		
 		JButton btnCompleteTask = new JButton("Complete Task");
-		btnCompleteTask.setBounds(317, 312, 123, 29);
+		btnCompleteTask.setBounds(483, 312, 123, 29);
 		frame.getContentPane().add(btnCompleteTask);
 		
 		JButton btnDeleteTask = new JButton("Delete Task");
-		btnDeleteTask.setBounds(317, 353, 123, 29);
+		btnDeleteTask.setBounds(483, 353, 123, 29);
 		frame.getContentPane().add(btnDeleteTask);
 		
 		//Create Status Label
 		JLabel lblStatus = new JLabel("Status:");
-		lblStatus.setBounds(274, 228, 49, 16);
+		lblStatus.setBounds(440, 228, 49, 16);
 		frame.getContentPane().add(lblStatus);
 		
 		//Create Status ComboBox with three options
 		JComboBox statusComboBox = new JComboBox();
 		statusComboBox.setModel(new DefaultComboBoxModel(new String[] {"SELECT STATUS", "Not Started", "In Progress", "Finished"}));
-		statusComboBox.setBounds(317, 224, 155, 27);
+		statusComboBox.setBounds(483, 224, 155, 27);
 		frame.getContentPane().add(statusComboBox);
 
 		//Right Section of the GUI Beginning
 		//New Description TextBox
 		newDescriptionTextBox = new JTextField();
 		newDescriptionTextBox.setColumns(10);
-		newDescriptionTextBox.setBounds(560, 42, 155, 77);
+		newDescriptionTextBox.setBounds(754, 42, 155, 77);
 		frame.getContentPane().add(newDescriptionTextBox);
 		
 		//Labels
 		JLabel lblDescriptionNew = new JLabel("Description:");
-		lblDescriptionNew.setBounds(484, 72, 77, 16);
+		lblDescriptionNew.setBounds(678, 72, 77, 16);
 		frame.getContentPane().add(lblDescriptionNew);
 		
 		JLabel lblNewMonth = new JLabel("Month");
-		lblNewMonth.setBounds(572, 125, 40, 16);
+		lblNewMonth.setBounds(766, 125, 40, 16);
 		frame.getContentPane().add(lblNewMonth);
 		
 		JLabel lblNewDueDate = new JLabel("Due Date:");
-		lblNewDueDate.setBounds(501, 148, 62, 16);
+		lblNewDueDate.setBounds(695, 148, 62, 16);
 		frame.getContentPane().add(lblNewDueDate);
 		
 		//New Month TextBox
 		newMonthTextField = new JTextField();
 		newMonthTextField.setColumns(10);
-		newMonthTextField.setBounds(575, 143, 40, 26);
+		newMonthTextField.setBounds(769, 143, 40, 26);
 		frame.getContentPane().add(newMonthTextField);
 		
 		//New Day TextBox
 		newDayTextField = new JTextField();
 		newDayTextField.setColumns(10);
-		newDayTextField.setBounds(624, 143, 40, 26);
+		newDayTextField.setBounds(818, 143, 40, 26);
 		frame.getContentPane().add(newDayTextField);
 		
 		//New Day Label
 		JLabel lblNewDay = new JLabel("Day");
-		lblNewDay.setBounds(631, 125, 24, 16);
+		lblNewDay.setBounds(825, 125, 24, 16);
 		frame.getContentPane().add(lblNewDay);
 		
 		//New Priority ComboBox
 		JComboBox newPriorityComboBox = new JComboBox();
-		newPriorityComboBox.setBounds(562, 190, 102, 27);
+		newPriorityComboBox.setBounds(756, 190, 102, 27);
 		newPriorityComboBox.setModel(new DefaultComboBoxModel(new String[] {"1"}));
 		frame.getContentPane().add(newPriorityComboBox);
 		
 		//Add Labels
 		JLabel lblNewPriority = new JLabel("Priority:");
-		lblNewPriority.setBounds(514, 194, 49, 16);
+		lblNewPriority.setBounds(708, 194, 49, 16);
 		frame.getContentPane().add(lblNewPriority);
 		
 		JLabel lblNewStatus = new JLabel("Status:");
-		lblNewStatus.setBounds(519, 232, 49, 16);
+		lblNewStatus.setBounds(713, 232, 49, 16);
 		frame.getContentPane().add(lblNewStatus);
 		
 		//New Status ComboBox 
 		JComboBox newStatusTextBox = new JComboBox();
-		newStatusTextBox.setBounds(560, 228, 155, 27);
+		newStatusTextBox.setBounds(754, 228, 155, 27);
 		newStatusTextBox.setModel(new DefaultComboBoxModel(new String[] {"Not Started", "In Progress", "Finished"}));
 		frame.getContentPane().add(newStatusTextBox);
 		
 		//Add Buttons
 		JButton btnAddTask = new JButton("Add Task");
-		btnAddTask.setBounds(560, 271, 123, 29);
+		btnAddTask.setBounds(754, 271, 123, 29);
 		frame.getContentPane().add(btnAddTask);
 		
 		JButton btnSaveTask = new JButton("Save Task");
-		btnSaveTask.setBounds(560, 312, 123, 29);
+		btnSaveTask.setBounds(754, 312, 123, 29);
 		frame.getContentPane().add(btnSaveTask);
 		
 		JButton btnPrintToFile = new JButton("Print To File");
-		btnPrintToFile.setBounds(560, 353, 123, 29);
+		btnPrintToFile.setBounds(754, 353, 123, 29);
 		frame.getContentPane().add(btnPrintToFile);
 
 	}
