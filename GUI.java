@@ -11,6 +11,9 @@ public class GUI
 	private JTextField dueDateTextField;
 	private JTextField monthUpdateTextField;
 	private JTextField dayUpdateTextField;
+	private JTextField newDescriptionTextBox;
+	private JTextField newMonthTextField;
+	private JTextField newDayTextField;
 
 
 	public GUI()
@@ -125,13 +128,13 @@ public class GUI
 		btnUpdateTask.setBounds(317, 271, 123, 29);
 		frame.getContentPane().add(btnUpdateTask);
 		
-		JButton buttonCompleteTask = new JButton("Complete Task");
-		buttonCompleteTask.setBounds(317, 312, 123, 29);
-		frame.getContentPane().add(buttonCompleteTask);
+		JButton btnCompleteTask = new JButton("Complete Task");
+		btnCompleteTask.setBounds(317, 312, 123, 29);
+		frame.getContentPane().add(btnCompleteTask);
 		
-		JButton buttonDeleteTask = new JButton("Delete Task");
-		buttonDeleteTask.setBounds(317, 353, 123, 29);
-		frame.getContentPane().add(buttonDeleteTask);
+		JButton btnDeleteTask = new JButton("Delete Task");
+		btnDeleteTask.setBounds(317, 353, 123, 29);
+		frame.getContentPane().add(btnDeleteTask);
 		
 		//Create Status Label
 		JLabel lblStatus = new JLabel("Status:");
@@ -140,9 +143,79 @@ public class GUI
 		
 		//Create Status ComboBox with three options
 		JComboBox statusComboBox = new JComboBox();
-		statusComboBox.setModel(new DefaultComboBoxModel(new String[] {"Not Started", "In Progress", "Finished"}));
+		statusComboBox.setModel(new DefaultComboBoxModel(new String[] {"SELECT STATUS", "Not Started", "In Progress", "Finished"}));
 		statusComboBox.setBounds(317, 224, 155, 27);
 		frame.getContentPane().add(statusComboBox);
+
+		//Right Section of the GUI Beginning
+		//New Description TextBox
+		newDescriptionTextBox = new JTextField();
+		newDescriptionTextBox.setColumns(10);
+		newDescriptionTextBox.setBounds(560, 42, 155, 77);
+		frame.getContentPane().add(newDescriptionTextBox);
+		
+		//Labels
+		JLabel lblDescriptionNew = new JLabel("Description:");
+		lblDescriptionNew.setBounds(484, 72, 77, 16);
+		frame.getContentPane().add(lblDescriptionNew);
+		
+		JLabel lblNewMonth = new JLabel("Month");
+		lblNewMonth.setBounds(572, 125, 40, 16);
+		frame.getContentPane().add(lblNewMonth);
+		
+		JLabel lblNewDueDate = new JLabel("Due Date:");
+		lblNewDueDate.setBounds(501, 148, 62, 16);
+		frame.getContentPane().add(lblNewDueDate);
+		
+		//New Month TextBox
+		newMonthTextField = new JTextField();
+		newMonthTextField.setColumns(10);
+		newMonthTextField.setBounds(575, 143, 40, 26);
+		frame.getContentPane().add(newMonthTextField);
+		
+		//New Day TextBox
+		newDayTextField = new JTextField();
+		newDayTextField.setColumns(10);
+		newDayTextField.setBounds(624, 143, 40, 26);
+		frame.getContentPane().add(newDayTextField);
+		
+		//New Day Label
+		JLabel lblNewDay = new JLabel("Day");
+		lblNewDay.setBounds(631, 125, 24, 16);
+		frame.getContentPane().add(lblNewDay);
+		
+		//New Priority ComboBox
+		JComboBox newPriorityComboBox = new JComboBox();
+		newPriorityComboBox.setBounds(562, 190, 102, 27);
+		frame.getContentPane().add(newPriorityComboBox);
+		
+		//Add Labels
+		JLabel lblNewPriority = new JLabel("Priority:");
+		lblNewPriority.setBounds(514, 194, 49, 16);
+		frame.getContentPane().add(lblNewPriority);
+		
+		JLabel lblNewStatus = new JLabel("Status:");
+		lblNewStatus.setBounds(519, 232, 49, 16);
+		frame.getContentPane().add(lblNewStatus);
+		
+		//New Status ComboBox 
+		JComboBox newStatusTextBox = new JComboBox();
+		newStatusTextBox.setBounds(560, 228, 155, 27);
+		newStatusTextBox.setModel(new DefaultComboBoxModel(new String[] {"Not Started", "In Progress", "Finished"}));
+		frame.getContentPane().add(newStatusTextBox);
+		
+		//Add Buttons
+		JButton btnAddTask = new JButton("Add Task");
+		btnAddTask.setBounds(560, 271, 123, 29);
+		frame.getContentPane().add(btnAddTask);
+		
+		JButton btnSaveTask = new JButton("Save Task");
+		btnSaveTask.setBounds(560, 312, 123, 29);
+		frame.getContentPane().add(btnSaveTask);
+		
+		JButton btnPrintToFile = new JButton("Print To File");
+		btnPrintToFile.setBounds(560, 353, 123, 29);
+		frame.getContentPane().add(btnPrintToFile);
 
 	}
 }
