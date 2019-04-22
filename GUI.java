@@ -14,6 +14,8 @@ public class GUI
 	private JTextField newDescriptionTextBox;
 	private JTextField newMonthTextField;
 	private JTextField newDayTextField;
+	private JTextField viewAndUpdatePriorityTextBox;
+	private JTextField newPriorityTextBox;
 
 
 	public GUI()
@@ -115,14 +117,6 @@ public class GUI
 		lblNewLabel.setBounds(435, 190, 49, 16);
 		frame.getContentPane().add(lblNewLabel);
 		
-		//Priority Combo Box
-		JComboBox priorityUpdateComboBox = new JComboBox();
-		
-		//Input number of descriptions using for loop below for combo box options
-		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		priorityUpdateComboBox.setBounds(483, 186, 102, 27);
-		frame.getContentPane().add(priorityUpdateComboBox);
-		
 		//Create Buttons
 		JButton btnUpdateTask = new JButton("Update Task");
 		btnUpdateTask.setBounds(483, 271, 123, 29);
@@ -184,26 +178,10 @@ public class GUI
 		lblNewDay.setBounds(825, 125, 24, 16);
 		frame.getContentPane().add(lblNewDay);
 		
-		//New Priority ComboBox
-		JComboBox newPriorityComboBox = new JComboBox();
-		newPriorityComboBox.setBounds(756, 190, 102, 27);
-		newPriorityComboBox.setModel(new DefaultComboBoxModel(new String[] {"1"}));
-		frame.getContentPane().add(newPriorityComboBox);
-		
 		//Add Labels
 		JLabel lblNewPriority = new JLabel("Priority:");
-		lblNewPriority.setBounds(708, 194, 49, 16);
+		lblNewPriority.setBounds(708, 190, 49, 16);
 		frame.getContentPane().add(lblNewPriority);
-		
-		JLabel lblNewStatus = new JLabel("Status:");
-		lblNewStatus.setBounds(713, 232, 49, 16);
-		frame.getContentPane().add(lblNewStatus);
-		
-		//New Status ComboBox 
-		JComboBox newStatusTextBox = new JComboBox();
-		newStatusTextBox.setBounds(754, 228, 155, 27);
-		newStatusTextBox.setModel(new DefaultComboBoxModel(new String[] {"Not Started", "In Progress", "Finished"}));
-		frame.getContentPane().add(newStatusTextBox);
 		
 		//Add Buttons
 		JButton btnAddTask = new JButton("Add Task");
@@ -225,6 +203,20 @@ public class GUI
 		JLabel lblAddNewTask = new JLabel("Add New Task");
 		lblAddNewTask.setBounds(779, 14, 90, 16);
 		frame.getContentPane().add(lblAddNewTask);
+		
+		viewAndUpdatePriorityTextBox = new JTextField();
+		viewAndUpdatePriorityTextBox.setColumns(10);
+		viewAndUpdatePriorityTextBox.setBounds(496, 185, 61, 26);
+		frame.getContentPane().add(viewAndUpdatePriorityTextBox);
+		
+		newPriorityTextBox = new JTextField();
+		newPriorityTextBox.setColumns(10);
+		newPriorityTextBox.setBounds(769, 185, 61, 26);
+		frame.getContentPane().add(newPriorityTextBox);
+		
+		JButton startOverbtn = new JButton("Start Over");
+		startOverbtn.setBounds(615, 399, 123, 29);
+		frame.getContentPane().add(startOverbtn);
 
 	}
 }
