@@ -1,7 +1,9 @@
 import javax.swing.*;
+
 import javax.swing.border.*;
 import java.text.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class GUI 
 {
@@ -16,6 +18,12 @@ public class GUI
 	private JTextField newDayTextField;
 	private JTextField viewAndUpdatePriorityTextBox;
 	private JTextField newPriorityTextBox;
+	private JRadioButton rdbtnDescription;
+	private JRadioButton rdbtnPriority;
+	private JRadioButton rdbtnDueDate;
+	private JRadioButton rdbtnStatus;
+	
+	public int selectedSortType;
 
 
 	public GUI()
@@ -219,4 +227,30 @@ public class GUI
 		frame.getContentPane().add(startOverbtn);
 
 	}
+	
+
+	//Button and TextField event handler
+	public void actionPerformed(ActionEvent event) 
+	{
+		Object source = event.getSource();
+
+		if (source == rdbtnDescription)
+		{
+			selectedSortType = 1;
+		}
+		else if (source == rdbtnPriority)
+		{
+			selectedSortType = 2;
+		}
+		else if (source == rdbtnDueDate)
+		{
+			selectedSortType = 3;
+		}
+		else if (source == rdbtnStatus)
+		{
+			selectedSortType = 4;
+		}
+
+	}
+	
 }
