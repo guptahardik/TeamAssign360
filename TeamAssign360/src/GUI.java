@@ -2,8 +2,11 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.text.*;
 import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class GUI 
+public class GUI extends JFrame implements ActionListener
 {
 
 	public JFrame frame;
@@ -14,7 +17,17 @@ public class GUI
 	private JTextField newDescriptionTextBox;
 	private JTextField newMonthTextField;
 	private JTextField newDayTextField;
-
+	private JComboBox priorityUpdateComboBox;
+	private JComboBox statusComboBox;
+	private JButton btnUpdateTask;
+	private JButton btnCompleteTask;
+	private JButton btnDeleteTask;
+	private JButton btnAddTask;
+	private JComboBox newPriorityComboBox;
+	private JComboBox newStatusTextBox;
+	private JButton btnSaveTask;
+	private JButton btnPrintToFile;
+	private GUIEventHandler buttonHandler;
 
 	public GUI()
 	{
@@ -28,6 +41,9 @@ public class GUI
 		frame.setBounds(200, 200, 950, 468);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setTitle("To Do List");
+		
+		buttonHandler = new GUIEventHandler();
 		
 		//First section of GUI Beginning
 		//Create Scrollable List
@@ -49,18 +65,22 @@ public class GUI
 		JRadioButton rdbtnDescription = new JRadioButton("Description");
 		rdbtnDescription.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		rdbtnDescription.setBounds(57, 310, 111, 23);
+		rdbtnDescription.addActionListener(this);
 		
 		JRadioButton rdbtnPriority = new JRadioButton("Priority");
 		rdbtnPriority.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		rdbtnPriority.setBounds(57, 336, 141, 23);
+		rdbtnPriority.addActionListener(this);
 		
 		JRadioButton rdbtnDueDate = new JRadioButton("Due Date");
 		rdbtnDueDate.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		rdbtnDueDate.setBounds(57, 362, 141, 23);
+		rdbtnDueDate.addActionListener(this);
 		
 		JRadioButton rdbtnStatus = new JRadioButton("Status");
 		rdbtnStatus.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		rdbtnStatus.setBounds(57, 387, 141, 23);
+		rdbtnStatus.addActionListener(this);
 		
 		//Create Radio Button Border
 	    Border sortByPanelBorder = BorderFactory.createTitledBorder("Sort By");
@@ -81,6 +101,7 @@ public class GUI
 		descriptionUpdateTextField.setBounds(451, 42, 203, 77);
 		frame.getContentPane().add(descriptionUpdateTextField);
 		descriptionUpdateTextField.setColumns(10);
+		descriptionUpdateTextField.addActionListener(this);
 		
 		//Create Labels
 		JLabel lblDescription = new JLabel("Description:");
@@ -104,11 +125,13 @@ public class GUI
 		monthUpdateTextField.setBounds(496, 143, 40, 26);
 		frame.getContentPane().add(monthUpdateTextField);
 		monthUpdateTextField.setColumns(10);
+		//didn't add action listener yet
 		
 		dayUpdateTextField = new JTextField();
 		dayUpdateTextField.setColumns(10);
 		dayUpdateTextField.setBounds(545, 143, 40, 26);
 		frame.getContentPane().add(dayUpdateTextField);
+		//didn't add action listener yet
 		
 		//Priority Label
 		JLabel lblNewLabel = new JLabel("Priority:");
@@ -116,25 +139,29 @@ public class GUI
 		frame.getContentPane().add(lblNewLabel);
 		
 		//Priority Combo Box
-		JComboBox priorityUpdateComboBox = new JComboBox();
+		priorityUpdateComboBox = new JComboBox();
 		
 		//Input number of descriptions using for loop below for combo box options
 		//comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		priorityUpdateComboBox.setBounds(483, 186, 102, 27);
 		frame.getContentPane().add(priorityUpdateComboBox);
+		priorityUpdateComboBox.addActionListener(this);
 		
 		//Create Buttons
-		JButton btnUpdateTask = new JButton("Update Task");
+		btnUpdateTask = new JButton("Update Task");
 		btnUpdateTask.setBounds(483, 271, 123, 29);
 		frame.getContentPane().add(btnUpdateTask);
+		btnUpdateTask.addActionListener(this);
 		
-		JButton btnCompleteTask = new JButton("Complete Task");
+		btnCompleteTask = new JButton("Complete Task");
 		btnCompleteTask.setBounds(483, 312, 123, 29);
 		frame.getContentPane().add(btnCompleteTask);
+		btnCompleteTask.addActionListener(this);
 		
-		JButton btnDeleteTask = new JButton("Delete Task");
+		btnDeleteTask = new JButton("Delete Task");
 		btnDeleteTask.setBounds(483, 353, 123, 29);
 		frame.getContentPane().add(btnDeleteTask);
+		btnDeleteTask.addActionListener(this);
 		
 		//Create Status Label
 		JLabel lblStatus = new JLabel("Status:");
@@ -142,10 +169,11 @@ public class GUI
 		frame.getContentPane().add(lblStatus);
 		
 		//Create Status ComboBox with three options
-		JComboBox statusComboBox = new JComboBox();
+		statusComboBox = new JComboBox();
 		statusComboBox.setModel(new DefaultComboBoxModel(new String[] {"SELECT STATUS", "Not Started", "In Progress", "Finished"}));
 		statusComboBox.setBounds(483, 224, 155, 27);
 		frame.getContentPane().add(statusComboBox);
+		statusComboBox.addActionListener(this);
 
 		//Right Section of the GUI Beginning
 		//New Description TextBox
@@ -153,6 +181,7 @@ public class GUI
 		newDescriptionTextBox.setColumns(10);
 		newDescriptionTextBox.setBounds(754, 42, 155, 77);
 		frame.getContentPane().add(newDescriptionTextBox);
+		newDescriptionTextBox.addActionListener(this);
 		
 		//Labels
 		JLabel lblDescriptionNew = new JLabel("Description:");
@@ -172,12 +201,14 @@ public class GUI
 		newMonthTextField.setColumns(10);
 		newMonthTextField.setBounds(769, 143, 40, 26);
 		frame.getContentPane().add(newMonthTextField);
+		//didn't add action listener yet
 		
 		//New Day TextBox
 		newDayTextField = new JTextField();
 		newDayTextField.setColumns(10);
 		newDayTextField.setBounds(818, 143, 40, 26);
 		frame.getContentPane().add(newDayTextField);
+		//didn't add action listener yet
 		
 		//New Day Label
 		JLabel lblNewDay = new JLabel("Day");
@@ -185,10 +216,11 @@ public class GUI
 		frame.getContentPane().add(lblNewDay);
 		
 		//New Priority ComboBox
-		JComboBox newPriorityComboBox = new JComboBox();
+		newPriorityComboBox = new JComboBox();
 		newPriorityComboBox.setBounds(756, 190, 102, 27);
 		newPriorityComboBox.setModel(new DefaultComboBoxModel(new String[] {"1"}));
 		frame.getContentPane().add(newPriorityComboBox);
+		newPriorityComboBox.addActionListener(this);
 		
 		//Add Labels
 		JLabel lblNewPriority = new JLabel("Priority:");
@@ -200,23 +232,27 @@ public class GUI
 		frame.getContentPane().add(lblNewStatus);
 		
 		//New Status ComboBox 
-		JComboBox newStatusTextBox = new JComboBox();
+		newStatusTextBox = new JComboBox();
 		newStatusTextBox.setBounds(754, 228, 155, 27);
 		newStatusTextBox.setModel(new DefaultComboBoxModel(new String[] {"Not Started", "In Progress", "Finished"}));
 		frame.getContentPane().add(newStatusTextBox);
+		newStatusTextBox.addActionListener(this);
 		
 		//Add Buttons
-		JButton btnAddTask = new JButton("Add Task");
+		btnAddTask = new JButton("Add Task");
 		btnAddTask.setBounds(754, 271, 123, 29);
 		frame.getContentPane().add(btnAddTask);
+		btnAddTask.addActionListener(this);
 		
-		JButton btnSaveTask = new JButton("Save Task");
+		btnSaveTask = new JButton("Save Task");
 		btnSaveTask.setBounds(754, 312, 123, 29);
 		frame.getContentPane().add(btnSaveTask);
+		btnSaveTask.addActionListener(this);
 		
-		JButton btnPrintToFile = new JButton("Print To File");
+		btnPrintToFile = new JButton("Print To File");
 		btnPrintToFile.setBounds(754, 353, 123, 29);
 		frame.getContentPane().add(btnPrintToFile);
+		btnPrintToFile.addActionListener(this);
 		
 		JLabel lblViewAndUpdate = new JLabel("View and Update");
 		lblViewAndUpdate.setBounds(493, 14, 109, 16);
@@ -226,5 +262,52 @@ public class GUI
 		lblAddNewTask.setBounds(779, 14, 90, 16);
 		frame.getContentPane().add(lblAddNewTask);
 
+	}
+	
+	public void actionPerformed(ActionEvent event) {
+		
+		String description = "";
+		String priority = "";
+		String status = "";
+		//Date Not yet added
+		
+		if(event.getSource() == btnUpdateTask) {
+			description = descriptionUpdateTextField.getText();
+			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
+			status = statusComboBox.getSelectedItem().toString();
+			buttonHandler.updateExceptionHandler(description, priority, status);
+		}
+		else if (event.getSource() == btnCompleteTask) {
+			// discuss other implementations of this method
+			description = descriptionUpdateTextField.getText();
+			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
+			status = statusComboBox.getSelectedItem().toString();
+			buttonHandler.completeTaskHandler(description, priority, status);
+		}
+		else if(event.getSource() == btnDeleteTask) {
+			// discuss other implementations of this method
+			description = descriptionUpdateTextField.getText();
+			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
+			status = statusComboBox.getSelectedItem().toString();
+			buttonHandler.deleteTaskHandler(description, priority, status);
+		}
+		else if(event.getSource() == btnAddTask) {
+			description = newDescriptionTextBox.getText();
+			priority = String.valueOf(newPriorityComboBox.getSelectedItem());
+			status = newStatusTextBox.getSelectedItem().toString();
+			buttonHandler.addTaskHandler(description, priority, status);
+			btnAddTask.setText("");
+		}
+		else if (event.getSource() == btnSaveTask) {
+			buttonHandler.saveTaskHandler();
+		}
+		else if(event.getSource() == btnPrintToFile) {
+			buttonHandler.printToFileTaskHandler();
+		}
+		// handling sort by radio buttons
+		else if (event.getSource() == btnPrintToFile) {
+			// actually have to add for radio buttons
+			// call/ create and implement appropriate functions for radio button
+		}
 	}
 }

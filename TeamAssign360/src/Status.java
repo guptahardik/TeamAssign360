@@ -1,11 +1,18 @@
+import java.time.LocalDate;
 
 public class Status {
 
 	private int status;
-	private String dateStarted;
-	private String dateFinished;
+	private LocalDate dateStarted;
+	private LocalDate dateFinished;
 	
-	public Status(int Stat, String Date_start, String Date_end) {
+	public Status() {
+		status = 0;
+		dateStarted = null;
+		dateFinished = null;
+	}
+	
+	public Status(int Stat, LocalDate Date_start, LocalDate Date_end) {
 		status = Stat;
 		dateStarted = Date_start;
 		dateFinished = Date_end;
@@ -19,19 +26,19 @@ public class Status {
 		this.status = stat;
 	}
 	
-	public String getDateStarted() {
+	public LocalDate getDateStarted() {
 		return dateStarted;
 	}
 	
-	public void setDateStarted(String Date_start) {
+	public void setDateStarted(LocalDate Date_start) {
 		this.dateStarted = Date_start;
 	}
 	
-	public String getDateFinished() {
+	public LocalDate getDateFinished() {
 		return dateFinished;
 	}
 	
-	public void setDateFinished(String Date_end) {
+	public void setDateFinished(LocalDate Date_end) {
 		this.dateFinished = Date_end;
 	}
 }

@@ -1,5 +1,3 @@
-
-
 /**
  * The ToDoList class is the class where every list object is created using 
  * the details necessary and a list object is created.
@@ -9,19 +7,21 @@ public class ToDoList {
 
 	// Parameters for a list item
 	private int priority;
-	private String date_start;
-	private String date_end;
+	private int dueDay;
+	private int dueMonth;
 	private String description;
 	private Status listStatus;
+	private ToDoList next;
 	
 	// constructor for a new ToDoList object
-	public ToDoList(int prio, String Date_start, String Date_end, 
-			String Descrip, int Stat){
+	public ToDoList(int prio, int Date_day, int Date_month, 
+			String Descrip){
 		priority = prio;
-		date_start = Date_start;
-		date_end = Date_end;
+		dueDay = Date_day;
+		dueMonth = Date_month;
 		description = Descrip;
-		listStatus = new Status(Stat, Date_start, Date_end);
+		listStatus = new Status();
+		next = null;
 	}
 	
 	//DECLARING GETTER AND SETTER METHODS
@@ -33,20 +33,20 @@ public class ToDoList {
 		this.priority = prio;
 	}
 	
-	public String getStartDate() {
-		return date_start;
+	public int getDueDay() {
+		return dueDay;
 	}
 	
-	public void setStartDate(String Date) {
-		this.date_start = Date;
+	public void setDueDay(int Date) {
+		this.dueDay = Date;
 	}
 	
-	public String getEndDate() {
-		return date_end;
+	public int getDueMonth() {
+		return dueMonth;
 	}
 	
-	public void setEndDate(String Date_end) {
-		this.date_end = Date_end;
+	public void setDueMonth(int Date) {
+		this.dueMonth = Date;
 	}
 	
 	public String getDescription() {
@@ -61,10 +61,12 @@ public class ToDoList {
 		return listStatus;
 	}
 	
-	public void setListStatus(int stat, String Date_start, String Date_end) {
-		this.listStatus.setStatus(stat);
-		this.listStatus.setDateStarted(Date_start);
-		this.listStatus.setDateFinished(Date_end);
+	public ToDoList getNext() {
+		return next;
+	}
+	
+	public void setNext(ToDoList task) {
+		this.next = task;
 	}
 	
 	
