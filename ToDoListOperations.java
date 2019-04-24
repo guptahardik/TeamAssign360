@@ -5,6 +5,7 @@ package main;
 //follow link to write object to file and retrieve it .
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.io.*;
 //printf is used in print function
 
@@ -149,10 +150,29 @@ public class ToDoListOperations {
 		}
 		
 	}
+	
+	public void saveLise(ToDoList currentList, ToDoList deletedList) throws IOException {
+		BufferedWriter writer = new BufferedWriter(new FileWriter("save.txt"));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+		
+		while(currentList != null) {
+			writer.write(currentList.getDescription());
+			writer.write(currentList.getDueDay());
+			writer.write(currentList.getDueMonth());
+			writer.write(currentList.getPriority());
+			writer.write(currentList.getListStatus().getStatus());
+			String dateS = currentList.getListStatus().getDateStarted().format(formatter);
+			String dateE = currentList.getListStatus().getDateFinished().format(formatter);
+			writer.write(dateS);
+			writer.write(dateE);
+			currentList = currentList.getNext();
+		}
+		writer.close();
+	}
 
 	
 
-	public void saveList(ToDoList currentList, ToDoList deletedList) throws IOException {
+public void printList(ToDoList currentList, ToDoList deletedList) throws IOException {
 		 BufferedWriter writer = new BufferedWriter(new FileWriter("ToDoList.txt"));
 		 int i = 1;
 		 while(currentList.getNext() != null) {
@@ -211,12 +231,31 @@ public class ToDoListOperations {
 		 writer.close();
 	}
 	
-	public ToDoList restoreList() {
-		
-		ToDoList currentList = new ToDoList();
-		
-		
-		return currentList;
-		
-	}
+//	public ToDoList restoreCurrentList() throws IOException {
+//		
+//		ToDoList currentList = new ToDoList(0, 0, 0, null);
+//		File file = new File("ToDoList.txt");
+//		FileReader fileReader = new FileReader(file);
+//		BufferedReader input = new BufferedReader(fileReader);
+//		
+//		String line;
+//		
+//		while((line= input.readLine()).equals("DELETED/COMPLETED")) {
+//			if(currentList == null) {
+//				
+//			}else {
+//				
+//			}
+//		}
+//		
+//		
+//		
+//		return null;
+//		
+//		
+//	}
+//	public ToDoList restoreDeletedList() {
+//		
+//		return null;
+//	}
 }
