@@ -229,14 +229,17 @@ public class ToDoListOperations {
 		}
 		writer.close();
 	}
-
+	
+	// this returns the current  task in the form of a todolist type list
 	public ToDoList restoreCurrentList() throws IOException {
 
 		ToDoList currentList = new ToDoList(0, 0, 0, null);
-		File file = new File("save1");
+		File file = new File("save1.txt");
 		FileReader fileReader = new FileReader(file);
 		BufferedReader input = new BufferedReader(fileReader);
-		String D = input.readLine();
+		String  line = input.readLine();
+		while(line !=   null) {
+		String D = line;
 		int d = Integer.parseInt(input.readLine());
 		int m = Integer.parseInt(input.readLine());
 		int p =Integer.parseInt(input.readLine());
@@ -245,24 +248,51 @@ public class ToDoListOperations {
 		LocalDate DateS = LocalDate.parse(input.readLine(), formatter);
 		LocalDate DateE = LocalDate.parse(input.readLine(), formatter);
 		addElement(currentList,D,d,m,p,status,DateS,DateE);
+		line = input.readLine();
+		}
 		input.close();
 		return currentList;
-
-
 	}
-	public void addElement(ToDoList list, String Description,int day, int month, int p, int s, LocalDate DateS, LocalDate DateE) {
-    ToDoList newList = new ToDoList(p,day,month,Description);
-    if(list == null) {
-    	list = newList;
-    //	list
-    }
+	
 
-		
+// this returns the deleted  task in the form of a todolist type list
+	public ToDoList restoreDeletedList() throws IOException {
+		ToDoList deletedList = new ToDoList(0, 0, 0, null);
+		File file = new File("save2.txt");
+		FileReader fileReader = new FileReader(file);
+		BufferedReader input = new BufferedReader(fileReader);
+		String  line = input.readLine();
+		while(line !=   null) {
+		    String D = line;
+		    int d = Integer.parseInt(input.readLine());
+		    int m = Integer.parseInt(input.readLine());
+		    int p =Integer.parseInt(input.readLine());
+		    int status = Integer.parseInt(input.readLine());
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+		    LocalDate DateS = LocalDate.parse(input.readLine(), formatter);
+		    LocalDate DateE = LocalDate.parse(input.readLine(), formatter);
+		    addElement(deletedList,D,d,m,p,status,DateS,DateE);
+		    line = input.readLine();
+		}
+		input.close();
+		return deletedList;
 	}
-
-
-	public ToDoList restoreDeletedList() {
-
-		return null;
-	}
+	//This is  for the restoring  function 
+		public void addElement(ToDoList list, String Description,int day, int month, int p, int s, LocalDate DateS, LocalDate DateE) {
+	    
+	    if(list.getNext() == null) {
+	    	ToDoList newList = new ToDoList(p,day,month,Description);
+	    	newList.setListStatus(s, DateS,DateE);
+	    	list.setNext(newList); 
+	    }
+	    else {
+	    	ToDoList newList  = list;
+	    	while(newList.getNext() != null) {
+	    		newList = newList.getNext();
+	    	}
+	    	ToDoList secondList = new ToDoList(p,day,month,Description);
+	    	secondList.setListStatus(s, DateS, DateE);
+	    	newList.setNext(secondList);
+	    }
+		}
 }
