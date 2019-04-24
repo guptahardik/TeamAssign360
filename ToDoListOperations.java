@@ -251,19 +251,16 @@ public class ToDoListOperations {
 
 	}
 	public void addElement(ToDoList list, String Description,int day, int month, int p, int s, LocalDate DateS, LocalDate DateE) {
-if(list == null) {
-		list.setDescription(Description);
-		list.setDueDay(day);
-		list.setDueMonth(month);
-		list.setPriority(p);
-		list.setListStatus(s, DateS, DateE);
-		
-}
-else {
-	
-}
+    ToDoList newList = new ToDoList(p,day,month,Description);
+    if(list == null) {
+    	list = newList;
+    //	list
+    }
 
+		
 	}
+
+
 	public ToDoList restoreDeletedList() {
 
 		return null;
