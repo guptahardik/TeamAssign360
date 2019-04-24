@@ -5,7 +5,6 @@ package main;
 //follow link to write object to file and retrieve it .
 
 import java.time.LocalDate;
-import java.io.PrintStream ;
 import java.io.*;
 //printf is used in print function
 
@@ -152,9 +151,65 @@ public class ToDoListOperations {
 
 	
 
-	public void saveList() {
+	public void saveList(ToDoList currentList, ToDoList deletedList) throws IOException {
+		 BufferedWriter writer = new BufferedWriter(new FileWriter("ToDoList.txt"));
+		 int i = 1;
+		 while(currentList.getNext() != null) {
+			 writer.write(i+ ": Description: "+currentList.getDescription() + "\nDue Date: "+ currentList.getDueMonth() + "/"
+					 +currentList.getDueMonth()+"\nPriority "+ currentList.getPriority()+ "\n");
+			 
+			 int status  = currentList.getListStatus().getStatus();
+				
+				if(status == 0) {
+					
+					writer.write("Status: Not Started\n");
+					
+				}else if(status == 1) {
+					
+					writer.write("Status: Started on "+  currentList.getListStatus().getDateStarted()+"\n");
+					
+				}else if(status == 2) {
+					
+					System.out.printf("\nStatus: Completed on "+ currentList.getListStatus().getDateFinished()+"\n");
+					
+				}else {
+					break;
+				}
+				currentList = currentList.getNext();
+				i++;
+		 }
+		 
+		 while(deletedList.getNext() != null) {
+			 
+			 writer.write(i+ ": Description: "+deletedList.getDescription() + "\nDue Date: "+ deletedList.getDueMonth() + "/"
+					 +deletedList.getDueMonth()+"\nPriority "+ deletedList.getPriority()+ "\n");
+			 
+			 int status  = deletedList.getListStatus().getStatus();
+				
+				if(status == 0) {
+					
+					writer.write("Status: Not Started\n");
+					
+				}else if(status == 1) {
+					
+					writer.write("Status: Started on "+  deletedList.getListStatus().getDateStarted()+"\n");
+					
+				}else if(status == 2) {
+					
+					System.out.printf("\nStatus: Completed on "+ deletedList.getListStatus().getDateFinished()+"\n");
+					
+				}else {
+					break;
+				}
+				
+				deletedList = deletedList.getNext();
+				i++;
+				
+				}
+		 writer.close();
+		 
 		
-		
+		 
 	}
 	
 	public void restoreList() {
