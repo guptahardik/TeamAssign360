@@ -112,6 +112,7 @@ public class ToDoListOperations {
 	//}
 	
 	public void displayLists(ToDoList Head) {
+		//This will take the current linked list.
 		ToDoList newTemp = Head;
 		
 		if(newTemp == null) {
@@ -178,10 +179,11 @@ public class ToDoListOperations {
 				currentList = currentList.getNext();
 				i++;
 		 }
+		 writer.write("DELETED/COMPLETED");
 		 
 		 while(deletedList.getNext() != null) {
 			 
-			 writer.write(i+ ": Description: "+deletedList.getDescription() + "\nDue Date: "+ deletedList.getDueMonth() + "/"
+			 writer.write("\n"+ i+ ": Description: "+deletedList.getDescription() + "\nDue Date: "+ deletedList.getDueMonth() + "/"
 					 +deletedList.getDueMonth()+"\nPriority "+ deletedList.getPriority()+ "\n");
 			 
 			 int status  = deletedList.getListStatus().getStatus();
@@ -207,12 +209,14 @@ public class ToDoListOperations {
 				
 				}
 		 writer.close();
-		 
-		
-		 
 	}
 	
-	public void restoreList() {
+	public ToDoList restoreList() {
+		
+		ToDoList currentList = new ToDoList();
+		
+		
+		return currentList;
 		
 	}
 }
