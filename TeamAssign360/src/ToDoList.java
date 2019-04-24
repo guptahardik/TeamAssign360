@@ -3,6 +3,9 @@
  * the details necessary and a list object is created.
  *
  */
+
+import java.time.LocalDate;
+
 public class ToDoList {
 
 	// Parameters for a list item
@@ -69,5 +72,10 @@ public class ToDoList {
 		this.next = task;
 	}
 	
-	
+	public void setListStatus(int status, LocalDate start, LocalDate end) {
+		this.listStatus.setStatus(status);;
+		this.listStatus.setDateStarted(start);
+		this.listStatus.setDateFinished(end);
+		//made by Hardik. Please edit if it is wrong. 
+	}
 }

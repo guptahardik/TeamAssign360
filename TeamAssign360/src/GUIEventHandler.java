@@ -37,17 +37,13 @@ public class GUIEventHandler{
 		return;
 	}
 	
-	public void addTaskHandler(String desc, String prio, String stat) {
+	public void addTaskHandler(String desc, String prio, String month, String day) {
 		if(desc.equals("")) {
 			JOptionPane.showMessageDialog(null, "Update Description in empty !");
 			return;
 		}
 		else if(prio.equals("")) {
 			JOptionPane.showMessageDialog(null, "Priority not chosen !");
-			return;
-		}
-		else if(stat.equals("")) {
-			JOptionPane.showMessageDialog(null, "Status not chosen !");
 			return;
 		}
 		else {
