@@ -6,6 +6,7 @@ import javax.swing.event.ListSelectionListener;
 import java.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class GUI extends JFrame implements ActionListener, ListSelectionListener
@@ -309,27 +310,45 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 			description = descriptionUpdateTextField.getText();
 			//priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
 			//status = statusComboBox.getSelectedItem().toString();
-			buttonHandler.deleteTaskHandler(description);
+			String delete = list.getSelectedValue().toString();
+			int index = list.getSelectedIndex();
+			buttonHandler.deleteTaskHandler(delete);
+			listModel.removeElementAt(index);
 		}
 		else if(event.getSource() == btnAddTask) {
-			description = newDescriptionTextBox.getText();
+			
 			//priority = String.valueOf(newPriorityComboBox.getSelectedItem());
 			priority = newPriorityTextBox.getText();
 			month = newMonthTextField.getText();
 			day = newDayTextField.getText();
-			buttonHandler.addTaskHandler(description, priority, month, day);
-			newDescriptionTextBox.setText("");
-			newPriorityTextBox.setText("");
-			newMonthTextField.setText("");
-			newDayTextField.setText("");
-			listModel.addElement(description);
+			description =  newDescriptionTextBox.getText();
+			//String toString = "Desctiption: " +description  +"\nPriority: "+ priority +"\nDue: "+ month +"/"+day;
+			
+			boolean added = buttonHandler.addTaskHandler(description, priority, month, day);
+			if(added) {
+				newDescriptionTextBox.setText("");
+				newPriorityTextBox.setText("");
+				newMonthTextField.setText("");
+				newDayTextField.setText("");
+				listModel.addElement(description);
+			}
 			
 		}
 		else if (event.getSource() == btnSaveTask) {
-			//buttonHandler.saveTaskHandler();
+			try {
+				buttonHandler.saveTaskHandler();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(event.getSource() == btnPrintToFile) {
-			//buttonHandler.printToFileTaskHandler();
+			try {
+				buttonHandler.printToFileTaskHandler();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		// handling sort by radio buttons
 		else if (event.getSource() == btnPrintToFile) {
