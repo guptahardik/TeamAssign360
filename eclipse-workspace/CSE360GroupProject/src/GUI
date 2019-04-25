@@ -332,4 +332,19 @@ public class GUI extends JFrame implements ActionListener
 			// call/ create and implement appropriate functions for radio button
 		}
 	}
+	public JList JListMaker(ToDoList list, int size) {
+		ToDoList temp = list;
+		String[] des = new  String[size];
+		int i = 0;
+		while(temp == null) {
+			des[i] = temp.getDescription();
+			temp = temp.getNext();
+			i++;
+		}
+		JList list1 = new JList(des);
+		
+		return list1;
+	}
+}
+
 }
