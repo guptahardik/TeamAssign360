@@ -4,8 +4,21 @@ import javax.swing.JOptionPane;
 
 public class GUIEventHandler{
 	
-	private ToDoListOperations operations = new ToDoListOperations();
+	private ToDoListOperations operations;
+	private int possiblePriority;
+	private ToDoList currentHead;
+	private ToDoList deletedHead;
 
+	public GUIEventHandler() {
+		operations = new ToDoListOperations();
+		possiblePriority = 1;
+		currentHead = null;
+		deletedHead = null;
+	}
+	
+	public int getSize() {
+		return possiblePriority - 1;
+	}
 	
 	public void updateExceptionHandler(String desc, String prio, String stat) {
 		if(desc.equals("")) {
@@ -39,7 +52,7 @@ public class GUIEventHandler{
 		return;
 	}
 	
-	public ToDoList addTaskHandler(ToDoList head, String desc, String prio, String month, String day) {
+	public void addTaskHandler(String desc, String prio, String month, String day) {
 		if(desc.equals("")) {
 			JOptionPane.showMessageDialog(null, "Update Description in empty !");
 		}
@@ -65,11 +78,15 @@ public class GUIEventHandler{
 			else if (dayNum < 0 || dayNum > 31) {
 				JOptionPane.showMessageDialog(null, "Not a valid date!");
 			}
+			else if (priority > possiblePriority) {
+				JOptionPane.showMessageDialog(null, "Not a valid priority!");
+			}
 			else {
-				head = operations.addList(head, priority, dayNum, monthNum, desc);
+				currentHead = operations.addList(currentHead, priority, dayNum, monthNum, desc);
+				possiblePriority++;
 			}
 		}
-		return head;
+		return;
 	}
 	
 	public boolean isNumber(String num) {
