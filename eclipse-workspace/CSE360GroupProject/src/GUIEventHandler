@@ -1,0 +1,98 @@
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
+
+public class GUIEventHandler{
+	
+	private ToDoListOperations operations = new ToDoListOperations();
+
+	
+	public void updateExceptionHandler(String desc, String prio, String stat) {
+		if(desc.equals("")) {
+			JOptionPane.showMessageDialog(null, "Update Description in empty !");
+			return;
+		}
+		else if(prio.equals("")) {
+			JOptionPane.showMessageDialog(null, "Priority not chosen !");
+			return;
+		}
+		else if(stat.equals("")) {
+			JOptionPane.showMessageDialog(null, "Status not chosen !");
+			return;
+		}
+		else {
+			// call update function
+		}
+		return;
+	}
+		
+	public void completeTaskHandler(String desc, String prio, String stat) {
+		// get the list object
+		// perform the actions for complete task
+		return;
+	}
+	
+	public void deleteTaskHandler(String desc, String prio, String stat) {
+		// get the corresponding list object
+		// delete the object from the list
+		// make priority changes to other list objects accordingly
+		return;
+	}
+	
+	public ToDoList addTaskHandler(ToDoList head, String desc, String prio, String month, String day) {
+		if(desc.equals("")) {
+			JOptionPane.showMessageDialog(null, "Update Description in empty !");
+		}
+		else if(prio.equals("")) {
+			JOptionPane.showMessageDialog(null, "Priority not chosen !");
+		}
+		else if (isNumber(prio) == false){ 
+			JOptionPane.showMessageDialog(null, "Priority not a number!");
+		}
+		else if (isNumber(month) == false){ 
+			JOptionPane.showMessageDialog(null, "Month not a number!");
+		}
+		else if (isNumber(day) == false){ 
+			JOptionPane.showMessageDialog(null, "Day not a number!");
+		}
+		else {
+			int priority = Integer.parseInt(prio);
+			int dayNum = Integer.parseInt(day);
+			int monthNum = Integer.parseInt(month);
+			if (monthNum < 0 || monthNum > 12) {
+				JOptionPane.showMessageDialog(null, "Not a valid month!");
+			}
+			else if (dayNum < 0 || dayNum > 31) {
+				JOptionPane.showMessageDialog(null, "Not a valid date!");
+			}
+			else {
+				head = operations.addList(head, priority, dayNum, monthNum, desc);
+			}
+		}
+		return head;
+	}
+	
+	public boolean isNumber(String num) {
+		boolean isNum = false;
+		try { 
+	        Integer.parseInt(num); 
+	        isNum = true;
+	    } 
+		catch(NumberFormatException e) { 
+	    	isNum = false;
+	    } 
+		return isNum;
+	}
+	
+	public void saveTaskHandler() {
+		// perform save list task
+		return;
+	}
+	
+	public void printToFileTaskHandler() {
+		// perform print to file operation
+		return;
+	}
+	
+	// add function for the radio button sorting
+}
