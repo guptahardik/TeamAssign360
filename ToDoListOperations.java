@@ -1,13 +1,11 @@
+// add the list object to the current and all file
+// http://www.avajava.com/tutorials/lessons/how-do-i-write-an-object-to-a-file-and-read-it-back.html
+// follow link to write object to file and retrieve it .
 package main;
-
-//add the list object to the current and all file
-//http://www.avajava.com/tutorials/lessons/how-do-i-write-an-object-to-a-file-and-read-it-back.html
-//follow link to write object to file and retrieve it .
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.io.*;
-//printf is used in print function
+
 
 public class ToDoListOperations {
 
@@ -17,7 +15,7 @@ public class ToDoListOperations {
 	//***Must also add one more number to the possible priority numbers***
 	public ToDoList addList(ToDoList head, int prio, int Date_day, int Date_month,
 			String Descrip) {
-
+		
 		ToDoList newListInstance = new ToDoList(prio, Date_day, Date_month,Descrip);
 		if(head == null) {
 			head = newListInstance;
@@ -37,7 +35,7 @@ public class ToDoListOperations {
 		}
 		return head;
 	}
-
+	
 	//method to delete list Node
 	//***Must delete one number from the possible priority numbers***
 	public ToDoList deleteList(ToDoList task, ToDoList currentHead, ToDoList deletedHead) {
@@ -53,10 +51,10 @@ public class ToDoListOperations {
 		//make deleted task the new head of the deleted linked list
 		//***Must make sure to set head of the deleted linked list to the deleted task when this method is called***
 		task.setNext(deletedHead);
-
+		
 		return currentHead;
 	}
-
+	
 	//***Must check for valid description and dates before this is called***
 	//*** also should probably check if status changing status to something less than it already is
 	//i.e. changing from started to not started***
@@ -64,7 +62,7 @@ public class ToDoListOperations {
 	//updates a given task in the list
 	public ToDoList updateList(ToDoList head, ToDoList deletedHead, ToDoList listObj, int prio,
 			int Date_day, int Date_month, String Descrip, int Stat) {
-
+		
 		//if changing the priority, shift the priority for the rest of the list
 		ToDoList parseList = head;
 		if(listObj.getPriority() > prio) {
@@ -83,12 +81,12 @@ public class ToDoListOperations {
 				parseList = parseList.getNext();
 			}
 		}
-
+		
 		listObj.setPriority(prio);
 		listObj.setDueDay(Date_day);
 		listObj.setDueMonth(Date_month);
 		listObj.setDescription(Descrip);
-
+		
 		//if status changes to started, store date started
 		//if status changes to finished, store date finished
 		if(listObj.getListStatus().getStatus() != Stat) {
@@ -105,13 +103,13 @@ public class ToDoListOperations {
 		}
 		return head;
 	}
-
+	
 	//not needed if completing task if status changed to finished
 	//will implement if complete task is separate from status changing to finished
 	//public ToDoList completeTask(ToDoList head, ToDoList task) {
-
+		
 	//}
-
+	
 	public void displayLists(ToDoList Head) {
 		//This will take the current linked list.
 		ToDoList newTemp = Head;
@@ -233,7 +231,8 @@ public class ToDoListOperations {
 	// this returns the current  task in the form of a todolist type list
 	public ToDoList restoreCurrentList() throws IOException {
 
-		ToDoList currentList = new ToDoList(0, 0, 0, null);
+		//ToDoList currentList = new ToDoList(0, 0, 0, null);
+		ToDoList currentList = null;
 		File file = new File("save1.txt");
 		FileReader fileReader = new FileReader(file);
 		BufferedReader input = new BufferedReader(fileReader);
@@ -247,7 +246,8 @@ public class ToDoListOperations {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
 		LocalDate DateS = LocalDate.parse(input.readLine(), formatter);
 		LocalDate DateE = LocalDate.parse(input.readLine(), formatter);
-		addElement(currentList,D,d,m,p,status,DateS,DateE);
+		//addElement(currentList,D,d,m,p,status,DateS,DateE);
+		currentList = addElement(currentList,D,d,m,p,status,DateS,DateE);
 		line = input.readLine();
 		}
 		input.close();
@@ -257,7 +257,8 @@ public class ToDoListOperations {
 
 // this returns the deleted  task in the form of a todolist type list
 	public ToDoList restoreDeletedList() throws IOException {
-		ToDoList deletedList = new ToDoList(0, 0, 0, null);
+		//ToDoList deletedList = new ToDoList(0, 0, 0, null);
+		ToDoList deletedList = null;
 		File file = new File("save2.txt");
 		FileReader fileReader = new FileReader(file);
 		BufferedReader input = new BufferedReader(fileReader);
@@ -271,28 +272,30 @@ public class ToDoListOperations {
 		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
 		    LocalDate DateS = LocalDate.parse(input.readLine(), formatter);
 		    LocalDate DateE = LocalDate.parse(input.readLine(), formatter);
-		    addElement(deletedList,D,d,m,p,status,DateS,DateE);
+		    //addElement(deletedList,D,d,m,p,status,DateS,DateE);
+		    deletedList = addElement(deletedList,D,d,m,p,status,DateS,DateE);
 		    line = input.readLine();
 		}
 		input.close();
 		return deletedList;
 	}
 	//This is  for the restoring  function 
-		public void addElement(ToDoList list, String Description,int day, int month, int p, int s, LocalDate DateS, LocalDate DateE) {
+	public ToDoList addElement(ToDoList list, String Description,int day, int month, int p, int s, LocalDate DateS, LocalDate DateE) {
 	    
-	    if(list.getNext() == null) {
-	    	ToDoList newList = new ToDoList(p,day,month,Description);
-	    	newList.setListStatus(s, DateS,DateE);
-	    	list.setNext(newList); 
-	    }
-	    else {
-	    	ToDoList newList  = list;
-	    	while(newList.getNext() != null) {
-	    		newList = newList.getNext();
-	    	}
-	    	ToDoList secondList = new ToDoList(p,day,month,Description);
-	    	secondList.setListStatus(s, DateS, DateE);
-	    	newList.setNext(secondList);
-	    }
+		if(list == null) {
+			ToDoList newList = new ToDoList(p,day,month,Description);
+			newList.setListStatus(s, DateS,DateE);
+			list = newList;
 		}
+		else {
+			ToDoList newList  = list;
+				while(newList.getNext() != null) {
+					newList = newList.getNext();
+				}
+				ToDoList secondList = new ToDoList(p,day,month,Description);
+				secondList.setListStatus(s, DateS, DateE);
+				newList.setNext(secondList);
+		}
+		return list;
+	}
 }
