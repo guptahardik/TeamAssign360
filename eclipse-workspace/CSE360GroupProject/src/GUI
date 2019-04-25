@@ -318,6 +318,9 @@ public class GUI extends JFrame implements ActionListener
 			newListItem.setEditable(false);
 			panel.add(newListItem);
 			frame.add(scrollPane);
+			JList printList = JListMaker(buttonHandler., int size);
+			panel.add(newListItem);
+			frame.add(scrollPane);
 			
 		}
 		else if (event.getSource() == btnSaveTask) {
