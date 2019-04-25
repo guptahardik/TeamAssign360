@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 public class GUI extends JFrame implements ActionListener
 {
 
-	private ToDoList currentHead = null;
-	private ToDoList deletedHead = null;
 	public JFrame frame;
 	private JScrollPane scrollPane;
 	private JPanel panel;
@@ -307,7 +305,7 @@ public class GUI extends JFrame implements ActionListener
 			priority = newPriorityTextBox.getText();
 			month = newMonthTextField.getText();
 			day = newDayTextField.getText();
-			currentHead = buttonHandler.addTaskHandler(currentHead, description, priority, month, day);
+			buttonHandler.addTaskHandler(description, priority, month, day);
 			newDescriptionTextBox.setText("");
 			newPriorityTextBox.setText("");
 			newMonthTextField.setText("");
