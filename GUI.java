@@ -7,6 +7,7 @@ import javax.swing.event.ListSelectionListener;
 import java.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class GUI extends JFrame implements ActionListener, ListSelectionListener
@@ -333,10 +334,20 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 			
 		}
 		else if (event.getSource() == btnSaveTask) {
-			//buttonHandler.saveTaskHandler();
+			try {
+				buttonHandler.saveTaskHandler();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(event.getSource() == btnPrintToFile) {
-			//buttonHandler.printToFileTaskHandler();
+			try {
+				buttonHandler.printToFileTaskHandler();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		// handling sort by radio buttons
 		else if (event.getSource() == btnPrintToFile) {
