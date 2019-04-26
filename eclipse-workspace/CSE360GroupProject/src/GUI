@@ -34,6 +34,7 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 	private JButton btnAddTask;
 	private JButton btnSaveTask;
 	private JButton btnPrintToFile;
+	private JButton startOverbtn;
 	private JTextField viewAndUpdatePriorityTextBox;
 	private JTextField newPriorityTextBox;
 	private GUIEventHandler buttonHandler;
@@ -41,10 +42,6 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 	private JList<String> list;
 	private MouseListener mouseListener;
 	private Object selected;
-	private JRadioButton rdbtnDescription;
-	private JRadioButton rdbtnPriority;
-	private JRadioButton rdbtnDueDate;
-	private JRadioButton rdbtnStatus;
 
 	public GUI()
 	{
@@ -198,7 +195,7 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		frame.getContentPane().add(btnDeleteTask);
 		btnDeleteTask.addActionListener(this);
 		
-		JButton startOverbtn = new JButton("Start Over");		
+		startOverbtn = new JButton("Start Over");		
 		startOverbtn.setBounds(483, 353, 123, 29);		
 		frame.getContentPane().add(startOverbtn);
 		startOverbtn.addActionListener(this);
@@ -328,7 +325,16 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 				int index = list.getSelectedIndex();
 				buttonHandler.updateExceptionHandler(update, description, priority, status, month, day);
 				listModel.removeElementAt(index);
-				listModel.add(index, description);
+				if(status.equals("Finished")) {
+					statusComboBox.setSelectedIndex(0);
+					viewAndUpdatePriorityTextBox.setText("");
+					monthUpdateTextField.setText("");
+					dayUpdateTextField.setText("");
+					descriptionUpdateTextField.setText("");
+				}
+				else {
+					listModel.add(index, description);
+				}
 				list.setSelectedIndex(index);
 			}
 			
@@ -383,6 +389,14 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 				e.printStackTrace();
 			}
 		}
+		else if(event.getSource() == startOverbtn) {
+			buttonHandler.setCurrentHead(null);
+			buttonHandler.setDeletedHead(null);
+			for(int i = 0; i < buttonHandler.getSize(); i++) {
+				listModel.remove(0);
+			}
+			buttonHandler.setPossiblePriority(1);
+		}
 		// handling sort by radio buttons
 		else if (event.getSource() == btnPrintToFile) {
 			// actually have to add for radio buttons
@@ -390,15 +404,6 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		}else if (event.getSource() == btnPrintToFile) {
 			// actually have to add for radio buttons
 			// call/ create and implement appropriate functions for radio button
-		}
-		else if(event.getSource() == rdbtnPriority) {
-			
-		}else if(event.getSource() == rdbtnDescription) {
-			
-		}else if(event.getSource() == rdbtnDueDate) {
-			
-		}else if(event.getSource() == rdbtnStatus) {
-			
 		}
 	}
 
