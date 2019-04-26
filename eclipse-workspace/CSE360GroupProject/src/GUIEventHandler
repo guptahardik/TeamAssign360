@@ -200,18 +200,49 @@ public class GUIEventHandler{
 	// add function for the radio button sorting
 	//This is  for sorting the list
 	
-	public void sortPriority() {
+	public void sortPriority() { 
 		ToDoList tempList = currentHead;
 		ToDoList sortedHead = null;
-		for(int priority = possiblePriority - 1; priority > 0; priority--) {
-			while(tempList.getPriority() != priority) {
-				tempList = tempList.getNext();
+		ToDoList sortedTemp = null;
+		for(int priority = 1; priority <= possiblePriority - 1; priority++) {
+			if(tempList.getPriority() == priority) {
+				currentHead = tempList.getNext();
+				if(sortedHead==null) {
+					sortedHead = tempList;
+					sortedTemp = tempList;
+				}
+				else {
+					sortedTemp.setNext(tempList);
+					sortedTemp = sortedTemp.getNext();
+				}
+				
 			}
-			sortedHead = tempList;
-			tempList = operations.deleteList(tempList, currentHead, sortedHead);
+			else {
+				while(tempList.getNext().getPriority() != priority) {
+					tempList = tempList.getNext();
+				}
+				if(sortedHead==null) {
+					sortedHead = tempList.getNext();
+					sortedTemp = tempList.getNext();
+				}
+				else {
+					sortedTemp.setNext(tempList.getNext());
+					sortedTemp = sortedTemp.getNext();
+				}
+				if(tempList.getNext()!=null) {
+					tempList.setNext(tempList.getNext().getNext());
+				}
+				else {
+					tempList.setNext(null);
+				}
+			}
+			tempList = currentHead;
+			}
+			//tempList = operations.deleteList(tempList, currentHead, sortedHead);
+			currentHead = sortedHead;
+			//JOptionPane.showMessageDialog(null, currentHead.getNext().getDescription());
+			
 		}
-		currentHead = sortedHead;
-	}
 	
 	public String[] getSelectedTask(Object selected) {
     	String[] details = new String[5];
