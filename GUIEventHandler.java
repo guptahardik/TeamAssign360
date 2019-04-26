@@ -3,8 +3,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
-import java.io.*; 
-import java.util.LinkedList;
 
 public class GUIEventHandler{
 	
@@ -32,8 +30,7 @@ public class GUIEventHandler{
 		return deletedHead;
 	}
 	
-	public boolean checkInputs(String desc, String prio, String month, String day) 
-	{
+	public boolean checkInputs(String desc, String prio, String month, String day) {
 		boolean valid = false;
 		if(desc.equals("")) {
 			JOptionPane.showMessageDialog(null, "Update Description in empty !");
@@ -95,8 +92,7 @@ public class GUIEventHandler{
 	}
 	
 	//currentDescription is the description from Jlist (not new description in the textbox)
-	public void updateExceptionHandler(String currentDescription, String desc, String prio, int stat, String month, String day) 
-	{
+	public void updateExceptionHandler(String currentDescription, String desc, String prio, int stat, String month, String day) {
 		if(checkInputs(desc, prio, month, day)){
 			int priority = Integer.parseInt(prio);
 			int dayNum = Integer.parseInt(day);
@@ -139,8 +135,7 @@ public class GUIEventHandler{
 		return;
 	}
 	
-	public boolean addTaskHandler(String desc, String prio, String month, String day) 
-	{
+	public boolean addTaskHandler(String desc, String prio, String month, String day) {
 		boolean added = false;
 		if(checkInputs(desc, prio, month, day)){
 			int priority = Integer.parseInt(prio);
@@ -173,32 +168,28 @@ public class GUIEventHandler{
 	}
 	
 	// add function for the radio button sorting
-	//This is  for sorting the list
 	
-    class Node 
-    { 
-        int data; 
-        Node next; 
-        Node(int d) {data = d; next = null; } 
-    }
-    public void swap(ToDoList Node1, ToDoList Node2) {
-    	ToDoList temp = Node1;
-    	Node1 = Node2;
-    	Node2 = temp;
- 
-    }
-    public ToDoList prioritySort(ToDoList list) {
-    	while(list.getNext() == null) {
-    		if(list.getPriority() > list.getNext().getPriority()) {
-    			swap(list,list.getNext());
-    		}
-    		else {
-    			break;
-    		}
-    		list = list.getNext();
-    	}
-    	
-    	return list;
-    }
-    
+	public void sortPriority() {
+		ToDoList tempList = currentHead;
+		ToDoList sortedList = null;
+		ToDoList sortedHead = null;
+		for(int priority = 1; priority < possiblePriority; priority++) {
+			while(tempList.getPriority() != priority) {
+				tempList = tempList.getNext();
+			}
+			if(sortedList == null) {
+				sortedList = tempList;
+				sortedHead = sortedList;
+			}
+			sortedList.setNext(tempList);
+			sortedList = sortedList.getNext();
+			tempList = currentHead;
+			}
+		currentHead = sortedHead;
+		}
+	public void sortDueDate(){
+		
+		
+	}
+	
 }
