@@ -181,4 +181,17 @@ public class GUIEventHandler{
 		currentHead = sortedHead;
 	}
 	
+	public void sortStatus() {
+		ToDoList tempList = currentHead;
+		ToDoList sortedHead = null;
+		for(int status = 0; status <=2;status ++) {
+			while(tempList.getListStatus().getStatus() != status) {
+				tempList = tempList.getNext();
+			}
+			sortedHead = tempList;
+			tempList = operations.deleteList(tempList, currentHead, sortedHead);
+		}
+		currentHead = sortedHead;
+	}
+	
 }
