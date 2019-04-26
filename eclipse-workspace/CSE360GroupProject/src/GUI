@@ -41,6 +41,10 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 	private JList<String> list;
 	private MouseListener mouseListener;
 	private Object selected;
+	private JRadioButton rdbtnDescription;
+	private JRadioButton rdbtnPriority;
+	private JRadioButton rdbtnDueDate;
+	private JRadioButton rdbtnStatus;
 
 	public GUI()
 	{
