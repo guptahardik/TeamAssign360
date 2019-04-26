@@ -3,10 +3,14 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
@@ -36,6 +40,12 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 	private GUIEventHandler buttonHandler;
 	private DefaultListModel<String> listModel;
 	private JList<String> list;
+	private MouseListener mouseListener;
+	private Object selected;
+	private JRadioButton rdbtnDescription;
+	private JRadioButton rdbtnPriority;
+	private JRadioButton rdbtnDueDate;
+	private JRadioButton rdbtnStatus;
 
 	public GUI()
 	{
@@ -73,7 +83,20 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane);
 		
-		
+		mouseListener = new MouseAdapter() {
+		      public void mouseClicked(MouseEvent mouseEvent) {
+		          //list = (JList) mouseEvent.getSource();
+		          if (mouseEvent.getClickCount() == 1) {
+		            int index = list.locationToIndex(mouseEvent.getPoint());
+		            if (index >= 0) {
+		              selected = list.getModel().getElementAt(index);
+		              //JOptionPane.showMessageDialog(null,selected.toString());
+		              populateDescription(selected);
+		            }
+		          }
+		        }
+		      };
+		list.addMouseListener(mouseListener);
 		
 		//List Label
 		JLabel lblTaskList = new JLabel("Task List");
@@ -86,22 +109,22 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		frame.getContentPane().add(sortByPanel);
 		
 		//Add radio buttons
-		JRadioButton rdbtnDescription = new JRadioButton("Description");
+		 rdbtnDescription = new JRadioButton("Description");
 		rdbtnDescription.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		rdbtnDescription.setBounds(57, 310, 111, 23);
 		rdbtnDescription.addActionListener(this);
 		
-		JRadioButton rdbtnPriority = new JRadioButton("Priority");
+		 rdbtnPriority = new JRadioButton("Priority");
 		rdbtnPriority.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		rdbtnPriority.setBounds(57, 336, 141, 23);
 		rdbtnPriority.addActionListener(this);
 		
-		JRadioButton rdbtnDueDate = new JRadioButton("Due Date");
+		rdbtnDueDate = new JRadioButton("Due Date");
 		rdbtnDueDate.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		rdbtnDueDate.setBounds(57, 362, 141, 23);
 		rdbtnDueDate.addActionListener(this);
 		
-		JRadioButton rdbtnStatus = new JRadioButton("Status");
+		 rdbtnStatus = new JRadioButton("Status");
 		rdbtnStatus.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		rdbtnStatus.setBounds(57, 387, 141, 23);
 		rdbtnStatus.addActionListener(this);
@@ -149,13 +172,13 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		monthUpdateTextField.setBounds(496, 143, 40, 26);
 		frame.getContentPane().add(monthUpdateTextField);
 		monthUpdateTextField.setColumns(10);
-		//didn't add action listener yet
+		monthUpdateTextField.addActionListener(this);
 		
 		dayUpdateTextField = new JTextField();
 		dayUpdateTextField.setColumns(10);
 		dayUpdateTextField.setBounds(545, 143, 40, 26);
 		frame.getContentPane().add(dayUpdateTextField);
-		//didn't add action listener yet
+		dayUpdateTextField.addActionListener(this);
 		
 		//Priority Label
 		JLabel lblNewLabel = new JLabel("Priority:");
@@ -170,15 +193,16 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		frame.getContentPane().add(btnUpdateTask);
 		btnUpdateTask.addActionListener(this);
 		
-		btnCompleteTask = new JButton("Complete Task");
-		btnCompleteTask.setBounds(483, 312, 123, 29);
-		frame.getContentPane().add(btnCompleteTask);
-		btnCompleteTask.addActionListener(this);
 		
 		btnDeleteTask = new JButton("Delete Task");
-		btnDeleteTask.setBounds(483, 353, 123, 29);
+		btnDeleteTask.setBounds(483, 312, 123, 29);
 		frame.getContentPane().add(btnDeleteTask);
 		btnDeleteTask.addActionListener(this);
+		
+		JButton startOverbtn = new JButton("Start Over");		
+		startOverbtn.setBounds(483, 353, 123, 29);		
+		frame.getContentPane().add(startOverbtn);
+		startOverbtn.addActionListener(this);
 		
 		//Create Status Label
 		JLabel lblStatus = new JLabel("Status:");
@@ -276,9 +300,7 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		frame.getContentPane().add(newPriorityTextBox);
 		newPriorityTextBox.addActionListener(this);
 		
-		JButton startOverbtn = new JButton("Start Over");		
-		startOverbtn.setBounds(615, 399, 123, 29);		
-		frame.getContentPane().add(startOverbtn);
+		
 
 	}
 	
@@ -292,30 +314,40 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		//Date Not yet added
 		
 		if(event.getSource() == btnUpdateTask) {
-			description = descriptionUpdateTextField.getText();
-			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
-			status = statusComboBox.getSelectedItem().toString();
+			//description = descriptionUpdateTextField.getText();
+			//priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
+			if(list.getSelectedIndex() == -1) {
+				JOptionPane.showMessageDialog(null, "Please select an task to update");
+			}
+			else {
+				String update = list.getSelectedValue().toString();
+				status = statusComboBox.getSelectedItem().toString();
+				priority = viewAndUpdatePriorityTextBox.getText();
+				month = monthUpdateTextField.getText();
+				day = dayUpdateTextField.getText();
+				description =  descriptionUpdateTextField.getText();
+				int index = list.getSelectedIndex();
+				buttonHandler.updateExceptionHandler(update, description, priority, status, month, day);
+				listModel.removeElementAt(index);
+				listModel.add(index, description);
+				list.setSelectedIndex(index);
+			}
+			
 			//buttonHandler.updateExceptionHandler(description, priority, status);
 		}
-		else if (event.getSource() == btnCompleteTask) {
-			// discuss other implementations of this method
-			description = descriptionUpdateTextField.getText();
-			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
-			status = statusComboBox.getSelectedItem().toString();
-			int index = list.getSelectedIndex();
-			//buttonHandler.completeTaskHandler(description, priority, status);
-		}
 		else if(event.getSource() == btnDeleteTask) {
-			// discuss other implementations of this method
-			
-			//***get description from JList
-			description = descriptionUpdateTextField.getText();
-			//priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
-			//status = statusComboBox.getSelectedItem().toString();
-			String delete = list.getSelectedValue().toString();
-			int index = list.getSelectedIndex();
-			buttonHandler.deleteTaskHandler(delete);
-			listModel.removeElementAt(index);
+			if(list.getSelectedIndex() == -1) {
+				JOptionPane.showMessageDialog(null, "Please select an task to delete");
+			}
+			else {
+				description = descriptionUpdateTextField.getText();
+				//priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
+				//status = statusComboBox.getSelectedItem().toString();
+				String delete = list.getSelectedValue().toString();
+				int index = list.getSelectedIndex();
+				buttonHandler.deleteTaskHandler(delete);
+				listModel.removeElementAt(index);
+			}
 		}
 		else if(event.getSource() == btnAddTask) {
 			
@@ -356,6 +388,21 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		else if (event.getSource() == btnPrintToFile) {
 			// actually have to add for radio buttons
 			// call/ create and implement appropriate functions for radio button
+		}else if (event.getSource() == btnPrintToFile) {
+			// actually have to add for radio buttons
+			// call/ create and implement appropriate functions for radio button
+		}
+		else if(event.getSource() == rdbtnPriority) {
+			//listModel.removeAllElements();
+			buttonHandler.sortPriority();
+			updateList();
+			
+		}else if(event.getSource() == rdbtnDescription) {
+			
+		}else if(event.getSource() == rdbtnDueDate) {
+			
+		}else if(event.getSource() == rdbtnStatus) {
+			
 		}
 	}
 
@@ -364,4 +411,25 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		// TODO Auto-generated method stub
 		
 	}
+	public void updateList() {
+		for(int i = 0; i < buttonHandler.getSize(); i++) {
+			listModel.remove(0);
+		}
+		for(int i = 0; i < buttonHandler.getSize(); i++) {
+			listModel.addElement(buttonHandler.getDescriptionAt(i));
+		}
+	}
+	
+	
+	public void populateDescription(Object selected) {
+		String description = selected.toString();
+		String[] details = new String[5];
+		details = buttonHandler.getSelectedTask(selected);
+		descriptionUpdateTextField.setText(details[0]);
+		monthUpdateTextField.setText(details[1]);
+		dayUpdateTextField.setText(details[2]);
+		viewAndUpdatePriorityTextBox.setText(details[3]);
+		statusComboBox.setSelectedIndex(Integer.parseInt(details[4])+1);
+	}
+	
 }
