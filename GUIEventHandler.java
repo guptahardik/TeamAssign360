@@ -3,6 +3,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class GUIEventHandler{
 	
@@ -29,7 +31,24 @@ public class GUIEventHandler{
 	public ToDoList getDeletedHead() {
 		return deletedHead;
 	}
+	public String getDescriptionAt(int index) {
+		ToDoList tempList = currentHead;
+		for(int i = 0; i < index; i++) {
+			tempList = tempList.getNext();
+		}
+		return tempList.getDescription();
+	}
+	public void setCurrentHead(ToDoList head) {
+		currentHead = head;
+	}
 	
+	public void setDeletedHead(ToDoList head) {
+		deletedHead = head;
+	}
+	
+	public void setPossiblePriority(int priority) {
+		possiblePriority = priority;
+	}
 	public boolean checkInputs(String desc, String prio, String month, String day) {
 		boolean valid = false;
 		if(desc.equals("")) {
@@ -92,12 +111,22 @@ public class GUIEventHandler{
 	}
 	
 	//currentDescription is the description from Jlist (not new description in the textbox)
-	public void updateExceptionHandler(String currentDescription, String desc, String prio, int stat, String month, String day) {
+	public void updateExceptionHandler(String currentDescription, String desc, String prio, String stat, String month, String day) {
 		if(checkInputs(desc, prio, month, day)){
 			int priority = Integer.parseInt(prio);
 			int dayNum = Integer.parseInt(day);
 			int monthNum = Integer.parseInt(month);
-			if(priority >= possiblePriority) {
+			int statNum = 2;
+			if(stat.equals("Not Started")) {
+				statNum = 0;
+			}
+			else if(stat.contentEquals("In Progress")) {
+				statNum = 1;
+			}
+			if(stat.contentEquals("SELECT STATUS")) {
+				JOptionPane.showMessageDialog(null, "Please select a valid status!");
+			}
+			else if(priority >= possiblePriority) {
 				JOptionPane.showMessageDialog(null, "Not a valid priority!");
 			}
 			else if(currentDescription.equals(desc) == false && checkDescription(desc) == false){
@@ -108,12 +137,12 @@ public class GUIEventHandler{
 				while(currentDescription.equals(tempList.getDescription()) == false) {
 					tempList = tempList.getNext();
 				}
-				if(stat < tempList.getListStatus().getStatus()) {
+				if(statNum < tempList.getListStatus().getStatus()) {
 					JOptionPane.showMessageDialog(null, "Not a valid status change!");
 				}
 				else {
-					currentHead = operations.updateList(currentHead, deletedHead, tempList, priority, dayNum, monthNum, desc, stat);
-					if(stat == 2) {
+					currentHead = operations.updateList(currentHead, deletedHead, tempList, priority, dayNum, monthNum, desc, statNum);
+					if(statNum == 2) {
 						deletedHead = tempList;
 						possiblePriority--;
 					}
@@ -126,6 +155,7 @@ public class GUIEventHandler{
 	
 	public void deleteTaskHandler(String desc) {
 		ToDoList tempList = currentHead;
+		JOptionPane.showMessageDialog(null, tempList.getDescription());
 		while(desc.equals(tempList.getDescription()) == false) {
 			tempList = tempList.getNext();
 		}
@@ -168,28 +198,69 @@ public class GUIEventHandler{
 	}
 	
 	// add function for the radio button sorting
+	//This is  for sorting the list
 	
 	public void sortPriority() {
+		
+		 
 		ToDoList tempList = currentHead;
-		ToDoList sortedList = null;
-		ToDoList sortedHead = null;
-		for(int priority = 1; priority < possiblePriority; priority++) {
+		ToDoList sortedHead = null, temp = null;
+		for(int priority = 1; priority <= possiblePriority - 1; priority++) {
 			while(tempList.getPriority() != priority) {
 				tempList = tempList.getNext();
 			}
-			if(sortedList == null) {
-				sortedList = tempList;
-				sortedHead = sortedList;
+			if(sortedHead==null) {
+			sortedHead = tempList;
+			currentHead = sortedHead;
+			
 			}
-			sortedList.setNext(tempList);
-			sortedList = sortedList.getNext();
-			tempList = currentHead;
+			else {
+				//temp = tempList;
+				//tempList = tempList.getNext();
+				sortedHead.setNext(temp);
+				sortedHead = sortedHead.getNext();
 			}
-		currentHead = sortedHead;
+			//tempList = operations.deleteList(tempList, currentHead, sortedHead);
 		}
-	public void sortDueDate(){
-		
 		
 	}
+	public void sortStatus() {
+		if(currentHead == null) {
+			int y = 1;
+		}
+		ToDoList temp = currentHead;
+		 
+			while(temp.getNext()!= null) {
+				if(temp.getListStatus().getStatus() > temp.getNext().getListStatus().getStatus()) {
+					swap(temp,temp.getNext());
+				}
+		temp = temp.getNext();	
+			
+		}
+			currentHead = temp;
+	}
 	
+	public void swap(ToDoList n1, ToDoList n2) {
+		ToDoList temp = n1;
+	    n1 = n2;
+	    n2 = temp;
+	}
+	
+	public String[] getSelectedTask(Object selected) {
+    	String[] details = new String[5];
+    	ToDoList selectedTask = null, head = currentHead;
+    	while(head != null) {
+    		if(head.getDescription() == selected.toString()) {
+    			selectedTask = head;
+    			break;
+    		}
+    		head = head.getNext();
+    	}
+    	details[0] = selectedTask.getDescription();
+    	details[1] = Integer.toString(selectedTask.getDueDay());
+    	details[2] = Integer.toString(selectedTask.getDueMonth());
+    	details[3] = Integer.toString(selectedTask.getPriority());
+    	details[4] = Integer.toString(selectedTask.getListStatus().getStatus());
+    	return details;
+    }
 }

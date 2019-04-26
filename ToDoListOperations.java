@@ -1,7 +1,7 @@
-// add the list object to the current and all file
-// http://www.avajava.com/tutorials/lessons/how-do-i-write-an-object-to-a-file-and-read-it-back.html
-// follow link to write object to file and retrieve it .
 package main;
+//add the list object to the current and all file
+//http://www.avajava.com/tutorials/lessons/how-do-i-write-an-object-to-a-file-and-read-it-back.html
+//follow link to write object to file and retrieve it .
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.io.*;
@@ -24,12 +24,12 @@ public class ToDoListOperations {
 			ToDoList tempList = head;
 			while(tempList.getNext() != null) {
 				if(tempList.getPriority() >= prio) {
-					tempList.setPriority(prio + 1);
+					tempList.setPriority(tempList.getPriority() + 1);
 				}
 				tempList = tempList.getNext();
 			}
 			if(tempList.getPriority() >= prio) {
-				tempList.setPriority(prio + 1);
+				tempList.setPriority(tempList.getPriority() + 1);
 			}
 			tempList.setNext(newListInstance);
 		}
@@ -39,14 +39,22 @@ public class ToDoListOperations {
 	//method to delete list Node
 	//***Must delete one number from the possible priority numbers***
 	public ToDoList deleteList(ToDoList task, ToDoList currentHead, ToDoList deletedHead) {
+		ToDoList tempList = currentHead;
+		while(tempList !=null) {
+			if(tempList.getPriority() > task.getPriority()) {
+				tempList.setPriority(tempList.getPriority() - 1);
+			}
+			tempList = tempList.getNext();
+		}
+		tempList = currentHead;
 		if(currentHead.getDescription().equals(task.getDescription())) {
 			currentHead = task.getNext();
 		}
 		else {
-			while(task.getDescription().equals(currentHead.getNext().getDescription()) == false) {
-				currentHead = currentHead.getNext();
+			while(task.getDescription().equals(tempList.getNext().getDescription()) == false) {
+				tempList = tempList.getNext();
 			}
-			currentHead.setNext(task.getNext());
+			tempList.setNext(task.getNext());
 		}
 		//make deleted task the new head of the deleted linked list
 		//***Must make sure to set head of the deleted linked list to the deleted task when this method is called***

@@ -1,7 +1,8 @@
 package main;
 
 import java.time.LocalDate;
-
+import java.util.List;
+import java.util.LinkedList;
 /**
  * The ToDoList class is the class where every list object is created using 
  * the details necessary and a list object is created.
