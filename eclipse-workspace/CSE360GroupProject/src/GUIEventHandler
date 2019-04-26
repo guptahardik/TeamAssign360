@@ -167,4 +167,24 @@ public class GUIEventHandler{
 	}
 	
 	// add function for the radio button sorting
+	
+	public void sortPriority() {
+		ToDoList tempList = currentHead;
+		ToDoList sortedList = null;
+		ToDoList sortedHead = null;
+		for(int priority = 1; priority < possiblePriority; priority++) {
+			while(tempList.getPriority() != priority) {
+				tempList = tempList.getNext();
+			}
+			if(sortedList == null) {
+				sortedList = tempList;
+				sortedHead = sortedList;
+			}
+			sortedList.setNext(tempList);
+			sortedList = sortedList.getNext();
+			tempList = currentHead;
+			}
+		currentHead = sortedHead;
+		}
+	
 }
