@@ -383,6 +383,18 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		else if (event.getSource() == btnPrintToFile) {
 			// actually have to add for radio buttons
 			// call/ create and implement appropriate functions for radio button
+		}else if (event.getSource() == btnPrintToFile) {
+			// actually have to add for radio buttons
+			// call/ create and implement appropriate functions for radio button
+		}
+		else if(event.getSource() == rdbtnPriority) {
+			
+		}else if(event.getSource() == rdbtnDescription) {
+			
+		}else if(event.getSource() == rdbtnDueDate) {
+			
+		}else if(event.getSource() == rdbtnStatus) {
+			
 		}
 	}
 
