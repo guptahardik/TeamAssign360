@@ -298,6 +298,10 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		newPriorityTextBox.setColumns(10);		
 		newPriorityTextBox.setBounds(769, 185, 61, 26);		
 		frame.getContentPane().add(newPriorityTextBox);
+		
+		JButton btnRestore = new JButton("Restore");
+		btnRestore.setBounds(617, 399, 123, 29);
+		frame.getContentPane().add(btnRestore);
 		newPriorityTextBox.addActionListener(this);
 
 
@@ -440,5 +444,4 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		viewAndUpdatePriorityTextBox.setText(details[3]);
 		statusComboBox.setSelectedIndex(Integer.parseInt(details[4])+1);
 	}
-
 }
