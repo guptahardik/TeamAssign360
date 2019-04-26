@@ -408,6 +408,15 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		
 	}
 	
+	public void updateList() {
+		for(int i = 0; i < buttonHandler.getSize(); i++) {
+			listModel.remove(0);
+		}
+		for(int i = 0; i < buttonHandler.getSize(); i++) {
+			listModel.addElement(buttonHandler.getDescriptionAt(i));
+		}
+	}
+	
 	public void populateDescription(Object selected) {
 		String description = selected.toString();
 		String[] details = new String[5];
