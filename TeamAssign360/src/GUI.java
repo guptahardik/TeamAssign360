@@ -189,15 +189,16 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		frame.getContentPane().add(btnUpdateTask);
 		btnUpdateTask.addActionListener(this);
 		
-		btnCompleteTask = new JButton("Complete Task");
-		btnCompleteTask.setBounds(483, 312, 123, 29);
-		frame.getContentPane().add(btnCompleteTask);
-		btnCompleteTask.addActionListener(this);
 		
 		btnDeleteTask = new JButton("Delete Task");
-		btnDeleteTask.setBounds(483, 353, 123, 29);
+		btnDeleteTask.setBounds(483, 312, 123, 29);
 		frame.getContentPane().add(btnDeleteTask);
 		btnDeleteTask.addActionListener(this);
+		
+		JButton startOverbtn = new JButton("Start Over");		
+		startOverbtn.setBounds(483, 353, 123, 29);		
+		frame.getContentPane().add(startOverbtn);
+		startOverbtn.addActionListener(this);
 		
 		//Create Status Label
 		JLabel lblStatus = new JLabel("Status:");
@@ -295,9 +296,7 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 		frame.getContentPane().add(newPriorityTextBox);
 		newPriorityTextBox.addActionListener(this);
 		
-		JButton startOverbtn = new JButton("Start Over");		
-		startOverbtn.setBounds(615, 399, 123, 29);		
-		frame.getContentPane().add(startOverbtn);
+		
 
 	}
 	
