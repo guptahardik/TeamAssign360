@@ -218,5 +218,30 @@ public class GUIEventHandler{
     	details[4] = Integer.toString(selectedTask.getListStatus().getStatus());
     	return details;
     }
+	public void sortPriority() {
+		ToDoList tempList = currentHead;
+		ToDoList sortedHead = null;
+		for(int priority = possiblePriority - 1; priority > 0; priority--) {
+			while(tempList.getPriority() != priority) {
+				tempList = tempList.getNext();
+			}
+			sortedHead = tempList;
+			tempList = operations.deleteList(tempList, currentHead, sortedHead);
+		}
+		currentHead = sortedHead;
+	}
+	
+	public void sortStatus() {
+		ToDoList tempList = currentHead;
+		ToDoList sortedHead = null;
+		for(int status = 0; status <=2;status ++) {
+			while(tempList.getListStatus().getStatus() != status) {
+				tempList = tempList.getNext();
+			}
+			sortedHead = tempList;
+			tempList = operations.deleteList(tempList, currentHead, sortedHead);
+		}
+		currentHead = sortedHead;
+	}
     
 }
