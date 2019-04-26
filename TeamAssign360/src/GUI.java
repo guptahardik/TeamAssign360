@@ -1,12 +1,20 @@
+
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.*;
 import java.awt.*;
-import javax.swing.JFrame;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-public class GUI extends JFrame implements ActionListener
+public class GUI extends JFrame implements ActionListener, ListSelectionListener
 {
 
 	public JFrame frame;
@@ -30,6 +38,10 @@ public class GUI extends JFrame implements ActionListener
 	private JTextField viewAndUpdatePriorityTextBox;
 	private JTextField newPriorityTextBox;
 	private GUIEventHandler buttonHandler;
+	private DefaultListModel<String> listModel;
+	private JList<String> list;
+	private MouseListener mouseListener;
+	private Object selected;
 
 	public GUI()
 	{
@@ -53,15 +65,34 @@ public class GUI extends JFrame implements ActionListener
 		panel.setSize(330, 250);
 		panel.setLayout(new GridLayout(20, 1));
 		
-		
 		//First section of GUI Beginning
-		//Create Scrollable List
-		scrollPane = new JScrollPane(panel);
+		//Create Scrollable List and Jlist
+		listModel = new DefaultListModel<String>();
+		list = new JList<String>(listModel);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setSelectedIndex(0);
+		list.addListSelectionListener(this);
+		list.setVisibleRowCount(5);
+		scrollPane = new JScrollPane(list);
+		
 		scrollPane.setBounds(16, 42, 331, 252);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane);
 		
-		
+		mouseListener = new MouseAdapter() {
+		      public void mouseClicked(MouseEvent mouseEvent) {
+		          //list = (JList) mouseEvent.getSource();
+		          if (mouseEvent.getClickCount() == 1) {
+		            int index = list.locationToIndex(mouseEvent.getPoint());
+		            if (index >= 0) {
+		              selected = list.getModel().getElementAt(index);
+		              //JOptionPane.showMessageDialog(null,selected.toString());
+		              populateDescription(selected);
+		            }
+		          }
+		        }
+		      };
+		list.addMouseListener(mouseListener);
 		
 		//List Label
 		JLabel lblTaskList = new JLabel("Task List");
@@ -137,13 +168,13 @@ public class GUI extends JFrame implements ActionListener
 		monthUpdateTextField.setBounds(496, 143, 40, 26);
 		frame.getContentPane().add(monthUpdateTextField);
 		monthUpdateTextField.setColumns(10);
-		//didn't add action listener yet
+		monthUpdateTextField.addActionListener(this);
 		
 		dayUpdateTextField = new JTextField();
 		dayUpdateTextField.setColumns(10);
 		dayUpdateTextField.setBounds(545, 143, 40, 26);
 		frame.getContentPane().add(dayUpdateTextField);
-		//didn't add action listener yet
+		dayUpdateTextField.addActionListener(this);
 		
 		//Priority Label
 		JLabel lblNewLabel = new JLabel("Priority:");
@@ -280,51 +311,69 @@ public class GUI extends JFrame implements ActionListener
 		//Date Not yet added
 		
 		if(event.getSource() == btnUpdateTask) {
+			JOptionPane.showMessageDialog(null,list.getSelectedValue().toString());
+			
 			description = descriptionUpdateTextField.getText();
 			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
 			status = statusComboBox.getSelectedItem().toString();
-			buttonHandler.updateExceptionHandler(description, priority, status);
+			month = monthUpdateTextField.getText();
+			day = dayUpdateTextField.getText();
+			//buttonHandler.updateExceptionHandler(description, priority, status, month, day);
 		}
 		else if (event.getSource() == btnCompleteTask) {
 			// discuss other implementations of this method
 			description = descriptionUpdateTextField.getText();
 			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
 			status = statusComboBox.getSelectedItem().toString();
-			buttonHandler.completeTaskHandler(description, priority, status);
+			int index = list.getSelectedIndex();
+			//buttonHandler.completeTaskHandler(description, priority, status);
 		}
 		else if(event.getSource() == btnDeleteTask) {
 			// discuss other implementations of this method
+			
+			//***get description from JList
 			description = descriptionUpdateTextField.getText();
-			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
-			status = statusComboBox.getSelectedItem().toString();
-			buttonHandler.deleteTaskHandler(description, priority, status);
+			//priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
+			//status = statusComboBox.getSelectedItem().toString();
+			String delete = list.getSelectedValue().toString();
+			int index = list.getSelectedIndex();
+			buttonHandler.deleteTaskHandler(delete);
+			listModel.removeElementAt(index);
 		}
 		else if(event.getSource() == btnAddTask) {
-			description = newDescriptionTextBox.getText();
+			
 			//priority = String.valueOf(newPriorityComboBox.getSelectedItem());
 			priority = newPriorityTextBox.getText();
 			month = newMonthTextField.getText();
 			day = newDayTextField.getText();
-			buttonHandler.addTaskHandler(description, priority, month, day);
-			newDescriptionTextBox.setText("");
-			newPriorityTextBox.setText("");
-			newMonthTextField.setText("");
-			newDayTextField.setText("");
-			String displayText = priority + " || " + description + " || " +
-			month + "-"+day;
-			JTextField newListItem = new JTextField(displayText, SwingConstants.CENTER);
-			newListItem.setBorder(new LineBorder(Color.BLACK));
-			//newListItem.setPreferredSize(new Dimension(40, 100));
-			newListItem.setEditable(false);
-			panel.add(newListItem);
-			frame.add(scrollPane);
+			description =  newDescriptionTextBox.getText();
+			//String toString = "Desctiption: " +description  +"\nPriority: "+ priority +"\nDue: "+ month +"/"+day;
+			
+			boolean added = buttonHandler.addTaskHandler(description, priority, month, day);
+			if(added) {
+				newDescriptionTextBox.setText("");
+				newPriorityTextBox.setText("");
+				newMonthTextField.setText("");
+				newDayTextField.setText("");
+				listModel.addElement(description);
+			}
 			
 		}
 		else if (event.getSource() == btnSaveTask) {
-			buttonHandler.saveTaskHandler();
+			try {
+				buttonHandler.saveTaskHandler();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(event.getSource() == btnPrintToFile) {
-			buttonHandler.printToFileTaskHandler();
+			try {
+				buttonHandler.printToFileTaskHandler();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		// handling sort by radio buttons
 		else if (event.getSource() == btnPrintToFile) {
@@ -332,4 +381,22 @@ public class GUI extends JFrame implements ActionListener
 			// call/ create and implement appropriate functions for radio button
 		}
 	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void populateDescription(Object selected) {
+		String description = selected.toString();
+		String[] details = new String[5];
+		details = buttonHandler.getSelectedTask(selected);
+		descriptionUpdateTextField.setText(details[0]);
+		monthUpdateTextField.setText(details[1]);
+		dayUpdateTextField.setText(details[2]);
+		viewAndUpdatePriorityTextBox.setText(details[3]);
+		statusComboBox.setSelectedIndex(Integer.parseInt(details[4])+1);
+	}
+	
 }

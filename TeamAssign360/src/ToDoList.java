@@ -1,11 +1,11 @@
+
+import java.time.LocalDate;
+
 /**
  * The ToDoList class is the class where every list object is created using 
  * the details necessary and a list object is created.
  *
  */
-
-import java.time.LocalDate;
-
 public class ToDoList {
 
 	// Parameters for a list item
@@ -63,6 +63,12 @@ public class ToDoList {
 	public Status getListStatus() {
 		return listStatus;
 	}
+	public void setListStatus(int status, LocalDate start, LocalDate end) {
+		this.listStatus.setStatus(status);;
+		this.listStatus.setDateStarted(start);
+		this.listStatus.setDateFinished(end);
+		//made by Hardik. Please edit if it is wrong. 
+	}
 	
 	public ToDoList getNext() {
 		return next;
@@ -72,10 +78,5 @@ public class ToDoList {
 		this.next = task;
 	}
 	
-	public void setListStatus(int status, LocalDate start, LocalDate end) {
-		this.listStatus.setStatus(status);;
-		this.listStatus.setDateStarted(start);
-		this.listStatus.setDateFinished(end);
-		//made by Hardik. Please edit if it is wrong. 
-	}
+	
 }
