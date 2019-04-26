@@ -23,12 +23,12 @@ public class ToDoListOperations {
 			ToDoList tempList = head;
 			while(tempList.getNext() != null) {
 				if(tempList.getPriority() >= prio) {
-					tempList.setPriority(prio + 1);
+					tempList.setPriority(tempList.getPriority() + 1);
 				}
 				tempList = tempList.getNext();
 			}
 			if(tempList.getPriority() >= prio) {
-				tempList.setPriority(prio + 1);
+				tempList.setPriority(tempList.getPriority() + 1);
 			}
 			tempList.setNext(newListInstance);
 		}
@@ -39,6 +39,13 @@ public class ToDoListOperations {
 	//***Must delete one number from the possible priority numbers***
 	public ToDoList deleteList(ToDoList task, ToDoList currentHead, ToDoList deletedHead) {
 		ToDoList tempList = currentHead;
+		while(tempList !=null) {
+			if(tempList.getPriority() > task.getPriority()) {
+				tempList.setPriority(tempList.getPriority() - 1);
+			}
+			tempList = tempList.getNext();
+		}
+		tempList = currentHead;
 		if(currentHead.getDescription().equals(task.getDescription())) {
 			currentHead = task.getNext();
 		}
