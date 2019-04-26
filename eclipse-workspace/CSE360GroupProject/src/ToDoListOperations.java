@@ -1,10 +1,10 @@
 // add the list object to the current and all file
 // http://www.avajava.com/tutorials/lessons/how-do-i-write-an-object-to-a-file-and-read-it-back.html
 // follow link to write object to file and retrieve it .
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.io.*;
+
 
 public class ToDoListOperations {
 
@@ -14,7 +14,7 @@ public class ToDoListOperations {
 	//***Must also add one more number to the possible priority numbers***
 	public ToDoList addList(ToDoList head, int prio, int Date_day, int Date_month,
 			String Descrip) {
-		
+
 		ToDoList newListInstance = new ToDoList(prio, Date_day, Date_month,Descrip);
 		if(head == null) {
 			head = newListInstance;
@@ -34,26 +34,27 @@ public class ToDoListOperations {
 		}
 		return head;
 	}
-	
+
 	//method to delete list Node
 	//***Must delete one number from the possible priority numbers***
 	public ToDoList deleteList(ToDoList task, ToDoList currentHead, ToDoList deletedHead) {
+		ToDoList tempList = currentHead;
 		if(currentHead.getDescription().equals(task.getDescription())) {
 			currentHead = task.getNext();
 		}
 		else {
-			while(task.getDescription().equals(currentHead.getNext().getDescription()) == false) {
-				currentHead = currentHead.getNext();
+			while(task.getDescription().equals(tempList.getNext().getDescription()) == false) {
+				tempList = tempList.getNext();
 			}
-			currentHead.setNext(task.getNext());
+			tempList.setNext(task.getNext());
 		}
 		//make deleted task the new head of the deleted linked list
 		//***Must make sure to set head of the deleted linked list to the deleted task when this method is called***
 		task.setNext(deletedHead);
-		
+
 		return currentHead;
 	}
-	
+
 	//***Must check for valid description and dates before this is called***
 	//*** also should probably check if status changing status to something less than it already is
 	//i.e. changing from started to not started***
@@ -61,7 +62,7 @@ public class ToDoListOperations {
 	//updates a given task in the list
 	public ToDoList updateList(ToDoList head, ToDoList deletedHead, ToDoList listObj, int prio,
 			int Date_day, int Date_month, String Descrip, int Stat) {
-		
+
 		//if changing the priority, shift the priority for the rest of the list
 		ToDoList parseList = head;
 		if(listObj.getPriority() > prio) {
@@ -80,12 +81,12 @@ public class ToDoListOperations {
 				parseList = parseList.getNext();
 			}
 		}
-		
+
 		listObj.setPriority(prio);
 		listObj.setDueDay(Date_day);
 		listObj.setDueMonth(Date_month);
 		listObj.setDescription(Descrip);
-		
+
 		//if status changes to started, store date started
 		//if status changes to finished, store date finished
 		if(listObj.getListStatus().getStatus() != Stat) {
@@ -102,13 +103,13 @@ public class ToDoListOperations {
 		}
 		return head;
 	}
-	
+
 	//not needed if completing task if status changed to finished
 	//will implement if complete task is separate from status changing to finished
 	//public ToDoList completeTask(ToDoList head, ToDoList task) {
-		
+
 	//}
-	
+
 	public void displayLists(ToDoList Head) {
 		//This will take the current linked list.
 		ToDoList newTemp = Head;
@@ -149,49 +150,97 @@ public class ToDoListOperations {
 	}
 
 	public void saveList1(ToDoList currentList) throws IOException {
-		BufferedWriter writer = new BufferedWriter(new FileWriter("save1.txt"));
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-
-		while(currentList != null) {
-			writer.write(currentList.getDescription());
-			writer.write(currentList.getDueDay());
-			writer.write(currentList.getDueMonth());
-			writer.write(currentList.getPriority());
-			writer.write(currentList.getListStatus().getStatus());
-			String dateS = currentList.getListStatus().getDateStarted().format(formatter);
-			String dateE = currentList.getListStatus().getDateFinished().format(formatter);
-			writer.write(dateS);
-			writer.write(dateE);
-			currentList = currentList.getNext();
+		if(currentList == null) {
+		int z =1;
 		}
-		writer.close();
+		else {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("save1.txt"));
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+
+			while(currentList != null) {
+				writer.write(currentList.getDescription());
+				writer.newLine();
+				writer.write(currentList.getDueDay());
+				writer.newLine();
+				writer.write(currentList.getDueMonth());
+				writer.newLine();
+				writer.write(currentList.getPriority());
+				writer.newLine();
+				writer.write(currentList.getListStatus().getStatus());
+				writer.newLine();
+				if(currentList.getListStatus().getDateStarted() == null) {
+					writer.write("");
+					writer.newLine();
+				}
+				else {
+					String dateS = currentList.getListStatus().getDateStarted().format(formatter);
+					writer.write(dateS);
+					writer.newLine();
+				}
+				if(currentList.getListStatus().getDateFinished() ==  null) {
+					writer.write("");
+					writer.newLine();
+				}
+				else {
+					String dateE = currentList.getListStatus().getDateFinished().format(formatter);
+					writer.write(dateE);
+					writer.newLine();
+				}
+				currentList = currentList.getNext();
+			}
+			writer.close();
+		}
 	}
 
 	public void saveList2( ToDoList deletedList) throws IOException {
-
-		BufferedWriter writer2 = new BufferedWriter(new FileWriter("save2.txt"));
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-
-		while(deletedList != null) {
-			writer2.write(deletedList.getDescription());
-			writer2.write(deletedList.getDueDay());
-			writer2.write(deletedList.getDueMonth());
-			writer2.write(deletedList.getPriority());
-			writer2.write(deletedList.getListStatus().getStatus());
-			String dateS = deletedList.getListStatus().getDateStarted().format(formatter);
-			String dateE = deletedList.getListStatus().getDateFinished().format(formatter);
-			writer2.write(dateS);
-			writer2.write(dateE);
-			deletedList = deletedList.getNext();
+		if(deletedList == null) {
+			int c =1;
 		}
-		writer2.close();
+		else {
+			BufferedWriter writer2 = new BufferedWriter(new FileWriter("save2.txt"));
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+
+			while(deletedList != null) {
+				writer2.write(deletedList.getDescription());
+				writer2.newLine();
+				writer2.write(deletedList.getDueDay());
+				writer2.newLine();
+				writer2.write(deletedList.getDueMonth());
+				writer2.newLine();
+				writer2.write(deletedList.getPriority());
+				writer2.newLine();
+				writer2.write(deletedList.getListStatus().getStatus());
+				writer2.newLine();
+				if(deletedList.getListStatus().getDateStarted() == null) {
+					writer2.write("");
+					writer2.newLine();
+				}
+				else {
+					String dateS = deletedList.getListStatus().getDateStarted().format(formatter);
+					writer2.write(dateS);
+					writer2.newLine();
+				}
+				if(deletedList.getListStatus().getDateFinished() ==  null) {
+					writer2.write("");
+					writer2.newLine();
+				}
+				else {
+					String dateE = deletedList.getListStatus().getDateFinished().format(formatter);
+					writer2.write(dateE);
+					writer2.newLine();
+				}
+				
+				deletedList = deletedList.getNext();
+			}
+			writer2.close();
+		}
 	}
 
 
 	public void printList(ToDoList currentList, ToDoList deletedList) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter("ToDoList.txt"));
 		int i = 1;
-		while(currentList.getNext() != null) {
+		while(currentList != null) {
 			writer.write(i+ ": Description: "+currentList.getDescription() + "\nDue Date: "+ currentList.getDueMonth() + "/"
 					+currentList.getDueMonth()+"\nPriority "+ currentList.getPriority()+ "\n");
 			int status  = currentList.getListStatus().getStatus();
@@ -207,26 +256,31 @@ public class ToDoListOperations {
 			currentList = currentList.getNext();
 			i++;
 		}
-		writer.write("DELETED/COMPLETED");
-		while(deletedList.getNext() != null) {
-			writer.write("\n"+ i+ ": Description: "+deletedList.getDescription() + "\nDue Date: "+ deletedList.getDueMonth() + "/"
-					+deletedList.getDueMonth()+"\nPriority "+ deletedList.getPriority()+ "\n");
-			int status  = deletedList.getListStatus().getStatus();
-			if(status == 0) {
-				writer.write("Status: Not Started\n");
-			}else if(status == 1) {
-				writer.write("Status: Started on "+  deletedList.getListStatus().getDateStarted()+"\n");
-			}else if(status == 2) {
-				System.out.printf("\nStatus: Completed on "+ deletedList.getListStatus().getDateFinished()+"\n");
-			}else {
-				break;
+
+		if(deletedList == null) {
+			int x =1;
+		}else {
+			writer.write("DELETED/COMPLETED");
+			while(deletedList != null) {
+				writer.write("\n"+ i+ ": Description: "+deletedList.getDescription() + "\nDue Date: "+ deletedList.getDueMonth() + "/"
+						+deletedList.getDueMonth()+"\nPriority "+ deletedList.getPriority()+ "\n");
+				int status  = deletedList.getListStatus().getStatus();
+				if(status == 0) {
+					writer.write("Status: Not Started\n");
+				}else if(status == 1) {
+					writer.write("Status: Started on "+  deletedList.getListStatus().getDateStarted()+"\n");
+				}else if(status == 2) {
+					System.out.printf("\nStatus: Completed on "+ deletedList.getListStatus().getDateFinished()+"\n");
+				}else {
+					break;
+				}
+				deletedList = deletedList.getNext();
+				i++;
 			}
-			deletedList = deletedList.getNext();
-			i++;
 		}
 		writer.close();
 	}
-	
+
 	// this returns the current  task in the form of a todolist type list
 	public ToDoList restoreCurrentList() throws IOException {
 
@@ -237,24 +291,24 @@ public class ToDoListOperations {
 		BufferedReader input = new BufferedReader(fileReader);
 		String  line = input.readLine();
 		while(line !=   null) {
-		String D = line;
-		int d = Integer.parseInt(input.readLine());
-		int m = Integer.parseInt(input.readLine());
-		int p =Integer.parseInt(input.readLine());
-		int status = Integer.parseInt(input.readLine());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-		LocalDate DateS = LocalDate.parse(input.readLine(), formatter);
-		LocalDate DateE = LocalDate.parse(input.readLine(), formatter);
-		//addElement(currentList,D,d,m,p,status,DateS,DateE);
-		currentList = addElement(currentList,D,d,m,p,status,DateS,DateE);
-		line = input.readLine();
+			String D = line;
+			int d = Integer.parseInt(input.readLine());
+			int m = Integer.parseInt(input.readLine());
+			int p =Integer.parseInt(input.readLine());
+			int status = Integer.parseInt(input.readLine());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+			LocalDate DateS = LocalDate.parse(input.readLine(), formatter);
+			LocalDate DateE = LocalDate.parse(input.readLine(), formatter);
+			//addElement(currentList,D,d,m,p,status,DateS,DateE);
+			currentList = addElement(currentList,D,d,m,p,status,DateS,DateE);
+			line = input.readLine();
 		}
 		input.close();
 		return currentList;
 	}
-	
 
-// this returns the deleted  task in the form of a todolist type list
+
+	// this returns the deleted  task in the form of a todolist type list
 	public ToDoList restoreDeletedList() throws IOException {
 		//ToDoList deletedList = new ToDoList(0, 0, 0, null);
 		ToDoList deletedList = null;
@@ -263,24 +317,24 @@ public class ToDoListOperations {
 		BufferedReader input = new BufferedReader(fileReader);
 		String  line = input.readLine();
 		while(line !=   null) {
-		    String D = line;
-		    int d = Integer.parseInt(input.readLine());
-		    int m = Integer.parseInt(input.readLine());
-		    int p =Integer.parseInt(input.readLine());
-		    int status = Integer.parseInt(input.readLine());
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-		    LocalDate DateS = LocalDate.parse(input.readLine(), formatter);
-		    LocalDate DateE = LocalDate.parse(input.readLine(), formatter);
-		    //addElement(deletedList,D,d,m,p,status,DateS,DateE);
-		    deletedList = addElement(deletedList,D,d,m,p,status,DateS,DateE);
-		    line = input.readLine();
+			String D = line;
+			int d = Integer.parseInt(input.readLine());
+			int m = Integer.parseInt(input.readLine());
+			int p =Integer.parseInt(input.readLine());
+			int status = Integer.parseInt(input.readLine());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+			LocalDate DateS = LocalDate.parse(input.readLine(), formatter);
+			LocalDate DateE = LocalDate.parse(input.readLine(), formatter);
+			//addElement(deletedList,D,d,m,p,status,DateS,DateE);
+			deletedList = addElement(deletedList,D,d,m,p,status,DateS,DateE);
+			line = input.readLine();
 		}
 		input.close();
 		return deletedList;
 	}
 	//This is  for the restoring  function 
 	public ToDoList addElement(ToDoList list, String Description,int day, int month, int p, int s, LocalDate DateS, LocalDate DateE) {
-	    
+
 		if(list == null) {
 			ToDoList newList = new ToDoList(p,day,month,Description);
 			newList.setListStatus(s, DateS,DateE);
@@ -288,12 +342,12 @@ public class ToDoListOperations {
 		}
 		else {
 			ToDoList newList  = list;
-				while(newList.getNext() != null) {
-					newList = newList.getNext();
-				}
-				ToDoList secondList = new ToDoList(p,day,month,Description);
-				secondList.setListStatus(s, DateS, DateE);
-				newList.setNext(secondList);
+			while(newList.getNext() != null) {
+				newList = newList.getNext();
+			}
+			ToDoList secondList = new ToDoList(p,day,month,Description);
+			secondList.setListStatus(s, DateS, DateE);
+			newList.setNext(secondList);
 		}
 		return list;
 	}
