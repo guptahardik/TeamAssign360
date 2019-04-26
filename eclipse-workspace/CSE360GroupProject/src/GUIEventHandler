@@ -29,6 +29,18 @@ public class GUIEventHandler{
 		return deletedHead;
 	}
 	
+	public void setCurrentHead(ToDoList head) {
+		currentHead = head;
+	}
+	
+	public void setDeletedHead(ToDoList head) {
+		deletedHead = head;
+	}
+	
+	public void setPossiblePriority(int priority) {
+		possiblePriority = priority;
+	}
+	
 	public String getDescriptionAt(int index) {
 		ToDoList tempList = currentHead;
 		for(int i = 0; i < index; i++) {
@@ -219,3 +231,4 @@ public class GUIEventHandler{
     	return details;
     }
 }
+	
