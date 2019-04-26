@@ -302,6 +302,7 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 			description = descriptionUpdateTextField.getText();
 			priority = String.valueOf(priorityUpdateComboBox.getSelectedItem());
 			status = statusComboBox.getSelectedItem().toString();
+			int index = list.getSelectedIndex();
 			//buttonHandler.completeTaskHandler(description, priority, status);
 		}
 		else if(event.getSource() == btnDeleteTask) {
@@ -325,12 +326,14 @@ public class GUI extends JFrame implements ActionListener, ListSelectionListener
 			description =  newDescriptionTextBox.getText();
 			//String toString = "Desctiption: " +description  +"\nPriority: "+ priority +"\nDue: "+ month +"/"+day;
 			
-			buttonHandler.addTaskHandler(description, priority, month, day);
-			newDescriptionTextBox.setText("");
-			newPriorityTextBox.setText("");
-			newMonthTextField.setText("");
-			newDayTextField.setText("");
-			listModel.addElement(description);
+			boolean added = buttonHandler.addTaskHandler(description, priority, month, day);
+			if(added) {
+				newDescriptionTextBox.setText("");
+				newPriorityTextBox.setText("");
+				newMonthTextField.setText("");
+				newDayTextField.setText("");
+				listModel.addElement(description);
+			}
 			
 		}
 		else if (event.getSource() == btnSaveTask) {

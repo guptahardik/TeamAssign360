@@ -192,7 +192,7 @@ public class ToDoListOperations {
 	public void printList(ToDoList currentList, ToDoList deletedList) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter("ToDoList.txt"));
 		int i = 1;
-		while(currentList.getNext() != null) {
+		while(currentList != null) {
 			writer.write(i+ ": Description: "+currentList.getDescription() + "\nDue Date: "+ currentList.getDueMonth() + "/"
 					+currentList.getDueMonth()+"\nPriority "+ currentList.getPriority()+ "\n");
 			int status  = currentList.getListStatus().getStatus();
@@ -208,8 +208,12 @@ public class ToDoListOperations {
 			currentList = currentList.getNext();
 			i++;
 		}
-		writer.write("DELETED/COMPLETED");
-		while(deletedList.getNext() != null) {
+		
+		if(deletedList == null) {
+			int x =1;
+		}else {
+			writer.write("DELETED/COMPLETED");
+		while(deletedList != null) {
 			writer.write("\n"+ i+ ": Description: "+deletedList.getDescription() + "\nDue Date: "+ deletedList.getDueMonth() + "/"
 					+deletedList.getDueMonth()+"\nPriority "+ deletedList.getPriority()+ "\n");
 			int status  = deletedList.getListStatus().getStatus();
@@ -224,6 +228,7 @@ public class ToDoListOperations {
 			}
 			deletedList = deletedList.getNext();
 			i++;
+		}
 		}
 		writer.close();
 	}
