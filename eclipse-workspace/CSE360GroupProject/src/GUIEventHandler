@@ -170,21 +170,15 @@ public class GUIEventHandler{
 	
 	public void sortPriority() {
 		ToDoList tempList = currentHead;
-		ToDoList sortedList = null;
 		ToDoList sortedHead = null;
-		for(int priority = 1; priority < possiblePriority; priority++) {
+		for(int priority = possiblePriority - 1; priority > 0; priority--) {
 			while(tempList.getPriority() != priority) {
 				tempList = tempList.getNext();
 			}
-			if(sortedList == null) {
-				sortedList = tempList;
-				sortedHead = sortedList;
-			}
-			sortedList.setNext(tempList);
-			sortedList = sortedList.getNext();
-			tempList = currentHead;
-			}
-		currentHead = sortedHead;
+			sortedHead = tempList;
+			tempList = operations.deleteList(tempList, currentHead, sortedHead);
 		}
+		currentHead = sortedHead;
+	}
 	
 }
